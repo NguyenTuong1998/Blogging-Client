@@ -13,6 +13,7 @@ let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for pass
 interface authProps {
   type: string;
 }
+
 const UserAuthForm: React.FC<authProps> = ({ type }) => {
 
   
@@ -94,7 +95,7 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
             type='submit'
             onClick={handleSubmit}
           >
-            <p className='py-2'>{type.replace('-', '')}</p>
+            <p className='py-2'>{type.replace('-', '') === 'signin' ? ' Sign In' : 'Sign Up'}</p>
           </button>
 
           <div className='relative w-full flex items-center gap-2 my-10 opacity-10 uppercase text-black font-bold'>
