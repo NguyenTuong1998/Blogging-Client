@@ -15,7 +15,8 @@ interface authProps {
 }
 const UserAuthForm: React.FC<authProps> = ({ type }) => {
 
-  const userAuthThroughServer = (serverRouter: any, formData: any) => {
+  
+  const userAuthThroughServer = (serverRouter: string, formData: any) => {
     axios.post(process.env.VITE_SERVER_DOMAIN + serverRouter, formData)
     .then(({data}) => {
       storeInSession('user', JSON.stringify(data))
@@ -27,10 +28,10 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
   const handleSubmit = (e:any) => {
     e.preventDefault();
 
-    const formElement: HTMLFormElement = e.currentTarget;
+    const formElement = document.getElementById("formElement") as HTMLFormElement
     let serverRouter = type === 'sign-in' ? 'signin' : 'signup';
     // form dataa
-    let form = new FormData(formElement);
+    let form = new FormData(formElement)
     let formData: Record<string, unknown> = {};
 
     for (let [key, value] of form.entries()) {
