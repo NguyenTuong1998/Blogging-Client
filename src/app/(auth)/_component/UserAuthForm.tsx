@@ -1,16 +1,68 @@
 'use client'
 import AnimationWraper from "@/common/AnimationWraper";
-import InputBox from "@/components/InputBox";
+import InputBox from "@/components/UI/InputBox";
 import Link from "next/link";
 import Image from "next/image";
+import googleIcon from '../../../../public/imgs/google.png'
+import axios from "axios";
+import {toast, Toaster} from "react-hot-toast";
+import { storeInSession } from "@/common/session";
 
+let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
+let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
 interface authProps {
   type: string;
 }
 const UserAuthForm: React.FC<authProps> = ({ type }) => {
+
+  const userAuthThroughServer = (serverRouter: any, formData: any) => {
+    axios.post(process.env.VITE_SERVER_DOMAIN + serverRouter, formData)
+    .then(({data}) => {
+      storeInSession('user', JSON.stringify(data))
+      console.log(data);
+    })
+    .catch(({response}) => toast.error(response.data.error))
+  }
+
+  const handleSubmit = (e:any) => {
+    e.preventDefault();
+
+    const formElement: HTMLFormElement = e.currentTarget;
+    let serverRouter = type === 'sign-in' ? 'signin' : 'signup';
+    // form dataa
+    let form = new FormData(formElement);
+    let formData: Record<string, unknown> = {};
+
+    for (let [key, value] of form.entries()) {
+      formData[key as string] = value;
+    }
+
+    let { fullname, email, password } = formData as { fullname: string; email: string; password: string };
+
+    //validate data 
+    if(fullname) {
+      if (fullname.length < 3) {
+        return toast.error('fullname must be at least 3 letters long');
+      }
+    }
+    
+    if (!email.length) {
+      return toast.error('Enter Email');
+    }
+    if (!emailRegex.test(email)) {
+      return toast.error('Email invalid');
+    }
+    if (!passwordRegex.test(password)) {
+      return toast.error('Password should be 6 to 28 characters long with a numeric, lowercase and 1 upercase letters ');
+    }
+
+    userAuthThroughServer(serverRouter, formData);
+  }
+
   return (
     <AnimationWraper keyValue={type}>
       <section className='h-cover flex items-center justify-center'>
+      <Toaster/>
         <form id="formElement" className='w-[80%] max-w-[400px]'>
           <h1 className='text-4xl font-gelasio capitalize text-center'>
             {type === 'sign-in' ? 'Welcome back' : 'Join us today'}
@@ -39,6 +91,7 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
           <button
             className='btn-dark center mt-14'
             type='submit'
+            onClick={handleSubmit}
           >
             <p className='py-2'>{type.replace('-', '')}</p>
           </button>
@@ -51,7 +104,7 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
 
           <button className='btn-dark flex items-center justify-center gap-4 w-[90%] center'>
             <Image
-              src='/public/imgs/google.png'
+              src={googleIcon}
               width={500}
               height={500}
               alt="google-icon"
