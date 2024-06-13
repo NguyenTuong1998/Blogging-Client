@@ -10,6 +10,11 @@ export default function Navbar() {
     const [userNavPanel, setUserNavPanel] = useState(false)
     const { userAuth } = useContext(UserContext) as any;
 
+    const handleBlur = () => {
+        setTimeout(() => {
+            setUserNavPanel(false)
+        }, 200);
+    }
     return (
         <>
             <nav className='navbar'>
@@ -34,7 +39,7 @@ export default function Navbar() {
                         className='md:hidden bg-grey w-12 h-12 rounded-full flex items-center justify-center'>
                         <i className='fi fi-rr-search text-xl'></i>
                     </button>
-                    <Link href='/editor' className='hidden md:flex gap-2 link'>
+                    <Link href='/editor' className='hidden items-center md:flex gap-2 link'>
                         <i className='fi fi-rr-file-edit'></i>
                         <p>Write</p>
                     </Link>
@@ -48,7 +53,11 @@ export default function Navbar() {
                                     </button>
                                 </Link>
                                 <div className='relative'>
-                                    <button className='w-12 h-12 mt-1' onClick={() => setUserNavPanel(!userNavPanel)}>
+                                    <button 
+                                    className='w-12 h-12 mt-1' 
+                                    onClick={() => setUserNavPanel(!userNavPanel)}
+                                    onBlur={handleBlur}
+                                    >
                                         <img src={userAuth?.profile_img}
                                             alt="logo-dashboard"
                                             height="100"
@@ -63,10 +72,10 @@ export default function Navbar() {
                             :
 
                             <>
-                                <Link className='btn-dark py-2 ' href='/signin'>
+                                <Link className='btn-dark ' href='/signin'>
                                     <p>Sign In</p>
                                 </Link>
-                                <Link className='btn-light hidden md:block py-2' href='/signup'>
+                                <Link className='btn-light items-center hidden md:block' href='/signup'>
                                     <p>Sign Up</p>
                                 </Link>
                             </>
