@@ -29,8 +29,7 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
     axios.post(process.env.VITE_SERVER_DOMAIN + serverRouter, formData)
     .then(({data}) => {
       storeInSession('user', JSON.stringify(data))
-
-      // setUserAuth(data)
+      setUserAuth(data)
     })
     .catch(({response}) => toast.error(response.data.error))
   }
@@ -73,7 +72,6 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
 
     userAuthThroughServer(serverRouter, formData);
   }
-console.log(userAuth?.access_token);
 
   return (
     userAuth?.access_token ? redirect('/') :

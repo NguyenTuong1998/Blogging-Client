@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../../public/imgs/logo.png'
 import { UserContext } from '@/app/layout';
-import userNavigation from './UI/UserNavigation';
+import UserNavigation from './UI/UserNavigation';
 export default function Navbar() {
     const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
     const { userAuth } = useContext(UserContext) as any;
@@ -62,7 +62,7 @@ export default function Navbar() {
                                         ></img>
                                     </button>
 
-                                    <userNavigation/>
+                                    <UserNavigation/>
                                 </div>
                             </>
                             :
