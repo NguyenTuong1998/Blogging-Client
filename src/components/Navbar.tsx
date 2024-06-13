@@ -7,14 +7,9 @@ import { UserContext } from '@/app/layout';
 import UserNavigation from './UI/UserNavigation';
 export default function Navbar() {
     const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
+    const [userNavPanel, setUserNavPanel] = useState(false)
     const { userAuth } = useContext(UserContext) as any;
-    
-    const ImageLink = (src: string) => {
-        return (
-            <img src={src}  />
-            )
-        }
-    
+
     return (
         <>
             <nav className='navbar'>
@@ -53,16 +48,16 @@ export default function Navbar() {
                                     </button>
                                 </Link>
                                 <div className='relative'>
-                                    <button className='w-12 h-12 mt-1'>
-                                        <img src={userAuth?.profile_img} 
-                                        alt="logo-dashboard"  
-                                        height="100" 
-                                        width="100"
-                                        className='w-full h-full object-cover rounded-full'
+                                    <button className='w-12 h-12 mt-1' onClick={() => setUserNavPanel(!userNavPanel)}>
+                                        <img src={userAuth?.profile_img}
+                                            alt="logo-dashboard"
+                                            height="100"
+                                            width="100"
+                                            className='w-full h-full object-cover rounded-full'
                                         ></img>
                                     </button>
+                                    {userNavPanel && <UserNavigation />}
 
-                                    <UserNavigation/>
                                 </div>
                             </>
                             :
