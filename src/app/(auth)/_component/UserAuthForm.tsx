@@ -3,10 +3,13 @@ import AnimationWraper from "@/common/AnimationWraper";
 import InputBox from "@/components/UI/InputBox";
 import Link from "next/link";
 import Image from "next/image";
+import {redirect} from 'next/navigation'
 import googleIcon from '../../../../public/imgs/google.png'
 import axios from "axios";
 import {toast, Toaster} from "react-hot-toast";
 import { storeInSession } from "@/common/session";
+import { useContext, useRef } from "react";
+import { UserContext } from "@/app/layout";
 
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
 let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
@@ -16,12 +19,18 @@ interface authProps {
 
 const UserAuthForm: React.FC<authProps> = ({ type }) => {
 
+
+  const authForm = useRef();
+
+  let {userAuth, setUserAuth } = useContext(UserContext) as any
+
   
   const userAuthThroughServer = (serverRouter: string, formData: any) => {
     axios.post(process.env.VITE_SERVER_DOMAIN + serverRouter, formData)
     .then(({data}) => {
       storeInSession('user', JSON.stringify(data))
-      console.log(data);
+
+      // setUserAuth(data)
     })
     .catch(({response}) => toast.error(response.data.error))
   }
@@ -31,6 +40,7 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
 
     const formElement = document.getElementById("formElement") as HTMLFormElement
     let serverRouter = type === 'sign-in' ? 'signin' : 'signup';
+
     // form dataa
     let form = new FormData(formElement)
     let formData: Record<string, unknown> = {};
@@ -38,6 +48,9 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
     for (let [key, value] of form.entries()) {
       formData[key as string] = value;
     }
+
+    console.log(formData);
+    
 
     let { fullname, email, password } = formData as { fullname: string; email: string; password: string };
 
@@ -60,8 +73,10 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
 
     userAuthThroughServer(serverRouter, formData);
   }
+console.log(userAuth?.access_token);
 
   return (
+    userAuth?.access_token ? redirect('/') :
     <AnimationWraper keyValue={type}>
       <section className='h-cover flex items-center justify-center'>
       <Toaster/>

@@ -9,7 +9,8 @@ export default function Navbar() {
         <>
             <nav className='navbar'>
                 <Link href='/' className='flex-none w-10'>
-                    <Image src={logo} className='w-full' alt="logo-dashboard" />
+                    <Image src={logo} className='w-full' alt="logo-dashboard" priority height="100"
+                        width="100" />
                 </Link>
                 <div className={`absolute bg-white w-full left-0  
         top-full mt-0.border-b border-grey py-4 px-[5vw] md:border-0 
