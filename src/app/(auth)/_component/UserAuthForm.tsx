@@ -81,7 +81,7 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
         <section className='h-cover flex items-center justify-center'>
           <Toaster />
           <form id="formElement" className='w-[80%] max-w-[400px]'>
-            <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 text-center">
+            <h2 className="scroll-m-20 border-b pb-2 border-none text-3xl font-semibold tracking-tight first:mt-0 text-center">
               {type === 'sign-in' ? 'Welcome back' : 'Join us today'}
             </h2>
             {type !== 'sign-in' ?
