@@ -117,7 +117,7 @@
   }
 
   .input-box {
-      @apply w-[100%] rounded-md p-4 bg-grey pl-12 border border-grey focus:bg-transparent placeholder:text-black;
+      @apply w-[100%] rounded-md p-2 bg-grey pl-12 border border-grey focus:bg-transparent placeholder:text-black;
   }
 
   input:disabled, input:disabled ~ .input-icon{

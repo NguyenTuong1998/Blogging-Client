@@ -8,6 +8,10 @@ import UserNavigation from './Utils/UserNavigation';
 import { NavigationMenuDemo } from './NavigationMenuDemo';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
+//shadcn ui
+import { Button } from "@/components/ui/button"
+
+
 
 
 
@@ -40,11 +44,10 @@ export default function Navbar() {
                     <i className='fi fi-rr-search absolute right-[10%] md:pointer-events-none md:left-5 top-1/2 -translate-y-1/2 text-xl  text-dark-grey'></i>
                 </div>
                 <NavigationMenuDemo />
-                <div className='flex gap-3 md:gap-6 ml-auto'>
+                <div className='flex gap-3 items-center md:gap-6 ml-auto'>
                     
-                    <Link href='/editor' className='hidden items-center md:flex gap-2 link'>
-                        <i className='fi fi-rr-file-edit'></i>
-                        <p>Write</p>
+                    <Link href='/editor' className='hidden items-center md:flex gap-2'>
+                        <Button variant="ghost"> <i className='fi fi-rr-file-edit px-1'></i> Write</Button>
                     </Link>
                     <button
                         onClick={() => setSearchBoxVisibility(!searchBoxVisibility)}
@@ -83,11 +86,15 @@ export default function Navbar() {
                             :
 
                             <>
-                                <Link className='btn-dark ' href='/signin'>
-                                    <p>Sign In</p>
+                                <Link href='/signin'>
+                                <Button className='rounded-xl px-6'>
+                                     Sign In
+                                </Button>
                                 </Link>
-                                <Link className='btn-light items-center hidden md:block' href='/signup'>
-                                    <p>Sign Up</p>
+                                <Link href='/signup'>
+                                <Button variant="secondary" className='rounded-xl px-6'>
+                                     Sign Up
+                                </Button>
                                 </Link>
                             </>
                     }
