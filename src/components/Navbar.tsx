@@ -5,6 +5,12 @@ import Image from 'next/image';
 import logo from '../../public/imgs/logo.png'
 import { UserContext } from '@/app/layout';
 import UserNavigation from './UI/UserNavigation';
+import { NavigationMenuDemo } from './NavigationMenuDemo';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
+
+
+
 export default function Navbar() {
     const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
     const [userNavPanel, setUserNavPanel] = useState(false)
@@ -33,37 +39,42 @@ export default function Navbar() {
                     />
                     <i className='fi fi-rr-search absolute right-[10%] md:pointer-events-none md:left-5 top-1/2 -translate-y-1/2 text-xl  text-dark-grey'></i>
                 </div>
+                <NavigationMenuDemo />
                 <div className='flex gap-3 md:gap-6 ml-auto'>
-                    <button
-                        onClick={() => setSearchBoxVisibility(!searchBoxVisibility)}
-                        className='md:hidden bg-grey w-12 h-12 rounded-full flex items-center justify-center'>
-                        <i className='fi fi-rr-search text-xl'></i>
-                    </button>
+                    
                     <Link href='/editor' className='hidden items-center md:flex gap-2 link'>
                         <i className='fi fi-rr-file-edit'></i>
                         <p>Write</p>
                     </Link>
-
+                    <button
+                        onClick={() => setSearchBoxVisibility(!searchBoxVisibility)}
+                        className='flex  w-12 h-12 rounded-full items-center justify-center'>
+                        <i className='fi fi-rr-search text-xl'></i>
+                    </button>
                     {
                         userAuth?.access_token ?
                             <>
                                 <Link className='py-2 ' href='/dashboard/notification'>
-                                    <button className='w-12 h-12 rounded-full bg-grey relative hover:bg-black/10'>
+                                    <button className='w-12  h-12 rounded-full  relative hover:bg-black/10'>
                                         <i className='fi fi-rr-bell text-2xl block'></i>
                                     </button>
                                 </Link>
                                 <div className='relative'>
-                                    <button 
-                                    className='w-12 h-12 mt-1' 
-                                    onClick={() => setUserNavPanel(!userNavPanel)}
-                                    onBlur={handleBlur}
+                                    <button
+                                        className='w-12 h-12 mt-1'
+                                        onClick={() => setUserNavPanel(!userNavPanel)}
+                                        onBlur={handleBlur}
                                     >
-                                        <img src={userAuth?.profile_img}
+                                        <Avatar>
+                                            <AvatarImage src={userAuth?.profile_img} />
+                                            <AvatarFallback>CN</AvatarFallback>
+                                        </Avatar>
+                                        {/* <img src={userAuth?.profile_img}
                                             alt="logo-dashboard"
                                             height="100"
                                             width="100"
                                             className='w-full h-full object-cover rounded-full'
-                                        ></img>
+                                        ></img> */}
                                     </button>
                                     {userNavPanel && <UserNavigation />}
 
