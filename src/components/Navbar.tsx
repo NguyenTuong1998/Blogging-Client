@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../../public/imgs/logo.png'
 import { UserContext } from '@/app/layout';
-import UserNavigation from './UI/UserNavigation';
+import UserNavigation from './Utils/UserNavigation';
 import { NavigationMenuDemo } from './NavigationMenuDemo';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 

@@ -1,6 +1,6 @@
 'use client'
 import AnimationWraper from "@/common/AnimationWraper";
-import InputBox from "@/components/UI/InputBox";
+import InputBox from "@/components/Utils/InputBox";
 import Link from "next/link";
 import Image from "next/image";
 import {redirect} from 'next/navigation'
