@@ -7,7 +7,7 @@ import User from './Schema/User.js'
 import cors from 'cors'
 import jwt from 'jsonwebtoken'
 import firebaseAdmin from 'firebase-admin'
-import serviceAccountKey from './blogging-website-e6f4d-firebase-adminsdk-kxayr-72dfc53b8f.json'
+import serviceAccountKey from './blogging-website-e6f4d-firebase-adminsdk-kxayr-72dfc53b8f.json' with { type: "json" };
 import {getAuth} from 'firebase-admin/auth'
 
 const server = express();
@@ -24,7 +24,7 @@ mongoose.connect(process.env.DB_LOCATION, {
 })
 
 firebaseAdmin.initializeApp({
-    credential: admin.credential.cert(serviceAccountKey)
+    credential: firebaseAdmin.credential.cert(serviceAccountKey)
 });
 
 
