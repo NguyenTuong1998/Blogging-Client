@@ -6,6 +6,9 @@ import {nanoid} from 'nanoid'
 import User from './Schema/User.js'
 import cors from 'cors'
 import jwt from 'jsonwebtoken'
+import firebaseAdmin from 'firebase-admin'
+import serviceAccountKey from './blogging-website-e6f4d-firebase-adminsdk-kxayr-72dfc53b8f.json'
+import {getAuth} from 'firebase-admin/auth'
 
 const server = express();
 let PORT = 3000;
@@ -19,6 +22,11 @@ server.use(cors());
 mongoose.connect(process.env.DB_LOCATION, {
     autoIndex: true
 })
+
+firebaseAdmin.initializeApp({
+    credential: admin.credential.cert(serviceAccountKey)
+});
+
 
 const formDataToSend = (user) => {
     const access_token = jwt.sign({id: user._id}, process.env.SECRET_ACCESS_KEY)
@@ -101,6 +109,43 @@ server.post('/signin', (req, res) => {
     .catch(err => {
         return res.status(500).json({'error': err.message});
     })
+})
+
+server.post('/post-auth', (req, res) => {
+    let {access_token} = req.body;
+
+    getAuth()
+    .verifyIdToken(access_token)
+    .then(async (decodeUser) => {
+        let { email, name, picture } = decodeUser;
+
+        picture = picture.replace('s96-c' , 's384-c')
+
+        let user = await User.findOne({'personal_info.email': email}).select('personal_info.fullname personal_info.username personal_info.profile_img google_auth')
+        .then((u) => u || null)
+        .catch((error) => res.status(500).json({'error': error.message}))
+
+        if(user){
+            if(!user.google_auth) return res.status(405).json({'error': 'This email was signed up without google. Please login with password to access the account'})
+        }
+        else {
+            let username = await generalUsername(email);
+
+            user = new User({
+                personal_info: {fullname: name, email, profile_img: picture, username},
+                google_auth: true
+            })
+
+            await user.save().then((u) => {
+                user = u
+            })
+            .catch(err => res.status(500).json({'error': err.message}))
+        }
+
+        return res.status(200).json(formDataToSend(user))
+    })
+    .catch(err => res.status(500).json({'error': 'Failed to authencation you to with google. Try with some google other account'}))
+
 })
 
 server.listen(PORT, () => {
