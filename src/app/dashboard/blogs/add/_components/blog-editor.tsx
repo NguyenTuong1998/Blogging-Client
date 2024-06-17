@@ -6,7 +6,6 @@ export default function BlogEditor() {
 
   const handleBanner = (e :any) => {
     let img = e.target.files[0]
-    console.log(img);
     
   }
   return (

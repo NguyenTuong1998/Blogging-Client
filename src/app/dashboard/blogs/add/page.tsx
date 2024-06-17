@@ -2,8 +2,8 @@
 import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '@/app/layout'
 import { redirect } from 'next/navigation'
-import BlogEditor from '@/app/dashboard/blogs/editor/_components/blog-editor'
-import PublicForm from '@/app/dashboard/blogs/editor/_components/public-form'
+import BlogEditor from '@/app/dashboard/blogs/add/_components/blog-editor'
+import PublicForm from '@/app/dashboard/blogs/add/_components/public-form'
 
 export default function EditorPage() {
     const [authVisitPage, setAuthVissitPage] = useState(false)
