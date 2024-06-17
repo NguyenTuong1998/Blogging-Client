@@ -8,10 +8,14 @@ import googleIcon from '../../../../public/imgs/google.png'
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 import { storeInSession } from "@/common/session";
-import { useContext, useRef } from "react";
+import { useContext,useState, useEffect, useRef } from "react";
 import { UserContext } from "@/app/layout";
 
 import { Button } from "@/components/ui/button"
+import app from "@/lib/auth";
+import { getAuth } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
+
 
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
 let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
@@ -21,12 +25,9 @@ interface authProps {
 
 const UserAuthForm: React.FC<authProps> = ({ type }) => {
 
-
-  const authForm = useRef();
-
-  let { userAuth, setUserAuth } = useContext(UserContext) as any
-
-
+  let { userAuth, setUserAuth } = useContext(UserContext) as any;
+  let { user, setUser } = useState() as any;
+  
   const userAuthThroughServer = (serverRouter: string, formData: any) => {
     axios.post(process.env.VITE_SERVER_DOMAIN + serverRouter, formData)
       .then(({ data }) => {
@@ -75,6 +76,33 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
     userAuthThroughServer(serverRouter, formData);
   }
 
+  const handleSigninGoogle = async (e: any) => {
+    e.preventDefault()
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({
+      prompt: "select_account"
+    });
+    try {
+      const check = await signInWithPopup(auth, provider)
+      console.log(check);
+      
+      redirect('/')
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  }
+
+  // useEffect(() => {
+  //   const auth = getAuth(app);
+  //   const unSubcrise = auth.onAuthStateChanged((user) => {
+  //     if(user) setUser(user)
+  //       else setUser(null);
+  //   })
+
+  //   return () => unSubcrise()
+  // },[])
+
   return (
     userAuth?.access_token ? redirect('/') :
       <AnimationWraper keyValue={type}>
@@ -120,7 +148,7 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
               <p>or</p>
               <hr className='w-1/2 border-black' />
             </div>
-            <Button className='flex items-center justify-center gap-4 w-[90%] center'>
+            <Button className='flex items-center justify-center gap-4 w-[90%] center' onClick={handleSigninGoogle}>
               <Image
                 src={googleIcon}
                 width={500}
