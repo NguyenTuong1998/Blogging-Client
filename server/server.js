@@ -9,6 +9,8 @@ import jwt from 'jsonwebtoken'
 import firebaseAdmin from 'firebase-admin'
 import serviceAccountKey from './blogging-website-e6f4d-firebase-adminsdk-kxayr-72dfc53b8f.json' with { type: "json" };
 import {getAuth} from 'firebase-admin/auth'
+import multer from 'multer'
+import cloudinary from './configs/cloudinary.js'
 
 const server = express();
 let PORT = 3000;
