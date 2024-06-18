@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button"
 import app from "@/lib/auth";
 import { getAuth } from "firebase/auth";
 import { signInWithPopup, GoogleAuthProvider, signInWithRedirect } from "firebase/auth";
+import { authWithPopup } from "@/common/firebase";
 
 
 let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
@@ -51,9 +52,6 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
       formData[key as string] = value;
     }
 
-    console.log(formData);
-
-
     let { fullname, email, password } = formData as { fullname: string; email: string; password: string };
 
     //validate data 
@@ -78,19 +76,25 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
 
   const handleSigninGoogle = async (e: any) => {
     e.preventDefault()
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-    provider.setCustomParameters({
-      prompt: "select_account"
-    });
-    try {
-      const check = await signInWithPopup(auth, provider)
-      console.log(check);
+    
+    authWithPopup().then(user => {
+      let serverRouter = 'google-auth'
+
+      if(user){
+        let formData = {
+          access_token: user['accessToken']
+        }
+  
+        userAuthThroughServer(serverRouter, formData)
+      }
       
-      redirect('/')
-    } catch (error: any) {
-      console.error(error.message);
-    }
+      
+    })
+    .catch(err => {
+      toast.error('Trouble login through google')
+      return console.error(err);
+      
+    });
   }
 
   // useEffect(() => {

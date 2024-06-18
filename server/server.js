@@ -111,7 +111,7 @@ server.post('/signin', (req, res) => {
     })
 })
 
-server.post('/post-auth', (req, res) => {
+server.post('/google-auth', (req, res) => {
     let {access_token} = req.body;
 
     getAuth()
@@ -126,7 +126,9 @@ server.post('/post-auth', (req, res) => {
         .catch((error) => res.status(500).json({'error': error.message}))
 
         if(user){
+
             if(!user.google_auth) return res.status(405).json({'error': 'This email was signed up without google. Please login with password to access the account'})
+
         }
         else {
             let username = await generalUsername(email);
