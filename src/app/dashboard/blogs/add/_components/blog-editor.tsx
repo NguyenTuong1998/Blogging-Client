@@ -2,10 +2,28 @@ import { Button } from '@/components/ui/button'
 import AnimationWraper from '@/common/AnimationWraper'
 import Image from 'next/image'
 import defaultBanner from '../../../../../../public/imgs/blog banner.png'
+import { uploadImage } from '@/apiRequests/blogs'
+import { useRef } from 'react'
 export default function BlogEditor() {
 
-  const handleBanner = (e :any) => {
+  let imgBannerRef = useRef(null)
+  const handleBanner = async (e :any) => {
     let img = e.target.files[0]
+    let formData = new FormData()
+    formData.append('image', img) 
+    
+    try {
+      const url = await uploadImage(formData)
+      console.log(url);
+      if(url){
+        // imgBannerRef.current.src  = url
+      }
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+    
     
   }
   return (
@@ -25,6 +43,7 @@ export default function BlogEditor() {
             <div className='relative aspect-video hover:opacity-80 bg-white border-4 border-grey'>
               <label htmlFor="uploadBanner">
                 <Image
+                  ref={imgBannerRef}
                   src={defaultBanner}
                   alt="Picture of the author"
                 />

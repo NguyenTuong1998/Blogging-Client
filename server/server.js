@@ -9,8 +9,9 @@ import jwt from 'jsonwebtoken'
 import firebaseAdmin from 'firebase-admin'
 import serviceAccountKey from './blogging-website-e6f4d-firebase-adminsdk-kxayr-72dfc53b8f.json' with { type: "json" };
 import {getAuth} from 'firebase-admin/auth'
-import multer from 'multer'
+
 import cloudinary from './configs/cloudinary.js'
+import upload from './middleware/multer.js'
 
 const server = express();
 let PORT = 3000;
@@ -150,6 +151,24 @@ server.post('/google-auth', (req, res) => {
     })
     .catch(err => res.status(500).json({'error': 'Failed to authencation you to with google. Try with some google other account'}))
 
+})
+
+server.post('/upload-image', upload.single('image'), (req, res) => {
+    cloudinary.uploader.upload(req.file.path, (err, result) => {
+        if(err) {
+            console.log(err);
+            return res.status(500).json({
+              success: false,
+              message: "Error"
+            })
+          }
+      
+          res.status(200).json({
+            success: true,
+            message:"Uploaded!",
+            data: result
+          })
+    })
 })
 
 server.listen(PORT, () => {
