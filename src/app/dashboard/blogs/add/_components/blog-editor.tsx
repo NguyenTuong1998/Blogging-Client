@@ -4,6 +4,7 @@ import Image from 'next/image'
 import defaultBanner from '../../../../../../public/imgs/blog banner.png'
 import { uploadImage } from '@/apiRequests/blogs'
 import { useRef, useState } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
 export default function BlogEditor() {
   const [urlBanner, setUrlBanner] = useState<string>();
 
@@ -18,17 +19,18 @@ export default function BlogEditor() {
       console.log(url);
       if(url){
         setUrlBanner(url)
+        toast.success('upload banner success');
       }
       
     } catch (error) {
-      console.log(error);
-      
+      toast.error('upload banner failed ', error as any);
     }
     
     
   }
   return (
     <>
+    <Toaster/>
       <nav className='navbar'>
         <p className='max-md:hiđen  text-black line-clamp-1 w-full'>
           New Blog
