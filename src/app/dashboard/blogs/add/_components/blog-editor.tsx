@@ -3,10 +3,11 @@ import AnimationWraper from '@/common/AnimationWraper'
 import Image from 'next/image'
 import defaultBanner from '../../../../../../public/imgs/blog banner.png'
 import { uploadImage } from '@/apiRequests/blogs'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 export default function BlogEditor() {
+  const [urlBanner, setUrlBanner] = useState<string>();
 
-  let imgBannerRef = useRef(null)
+  let imgBannerRef = useRef()  as any
   const handleBanner = async (e :any) => {
     let img = e.target.files[0]
     let formData = new FormData()
@@ -16,7 +17,7 @@ export default function BlogEditor() {
       const url = await uploadImage(formData)
       console.log(url);
       if(url){
-        // imgBannerRef.current.src  = url
+        setUrlBanner(url)
       }
       
     } catch (error) {
@@ -43,9 +44,15 @@ export default function BlogEditor() {
             <div className='relative aspect-video hover:opacity-80 bg-white border-4 border-grey'>
               <label htmlFor="uploadBanner">
                 <Image
-                  ref={imgBannerRef}
-                  src={defaultBanner}
+                  // ref={imgBannerRef}
+                  src={urlBanner ? urlBanner : defaultBanner}
                   alt="Picture of the author"
+                  width={500}
+                  height={500}
+                  sizes="100vw"
+      style={{
+        objectFit: 'cover',
+      }}
                 />
                 <input 
                   type="file" 
