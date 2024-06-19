@@ -52,9 +52,9 @@ export default function BlogEditor() {
                   width={500}
                   height={500}
                   sizes="100vw"
-      style={{
-        objectFit: 'cover',
-      }}
+                  style={{
+                    objectFit: 'cover',
+                  }}
                 />
                 <input 
                   type="file" 
