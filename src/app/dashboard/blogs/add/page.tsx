@@ -20,19 +20,12 @@ export const EditorContext = createContext({})
 export default function EditorPage() {
 
     const [blog, setBlog] = useState(blogStructure)
-    const [authVisitPage, setAuthVissitPage] = useState(false)
     const [editorState, setEditorSetate] = useState('editor')
     let { userAuth } = useContext(UserContext) as any;
 
-    useEffect(() => {
-        if (userAuth?.access_token === null || userAuth?.access_token === undefined) {
-            return redirect('/signin')
-        } setAuthVissitPage(true)
-    }, [userAuth?.access_token])
-
     return (
-        !authVisitPage ?
-            <></> : editorState ? <BlogEditor /> : <PublicForm />
+        userAuth?.access_token === null ? 
+            <>{redirect('/signin')}</> : editorState ? <BlogEditor /> : <PublicForm />
 
     )
 }
