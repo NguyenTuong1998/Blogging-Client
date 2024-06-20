@@ -7,7 +7,7 @@ import User from './Schema/User.js'
 import cors from 'cors'
 import jwt from 'jsonwebtoken'
 import firebaseAdmin from 'firebase-admin'
-import serviceAccountKey from './blogging-website-e6f4d-firebase-adminsdk-kxayr-72dfc53b8f.json' with { type: "json" };
+import serviceAccountKey from './blogging-website-e6f4d-firebase-adminsdk-kxayr-72dfc53b8f.json' assert { type: "json" };
 import {getAuth} from 'firebase-admin/auth'
 
 import cloudinary from './configs/cloudinary.js'

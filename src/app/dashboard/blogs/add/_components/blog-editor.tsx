@@ -25,9 +25,19 @@ export default function BlogEditor() {
     } catch (error) {
       toast.error('upload banner failed ', error as any);
     }
-    
-    
   }
+
+  const handleTitleKeydown = (e: any) => {
+    if(e.keyCode == 13) e.preventDefault();
+  }
+  
+  const handleTitleChange = (e: any) => {
+    let input = e.target;
+
+    input.style.height = 'auto';
+    input.style.height = input.scrollHeight + 'px'
+  }
+
   return (
     <>
     <Toaster/>
@@ -65,6 +75,14 @@ export default function BlogEditor() {
                 />
               </label>
             </div>
+            <textarea
+              placeholder='Blog Title'
+              className='text-4xl w-full h-20 outline-none resize-none mt-10 leading-tight placeholder:opacity-40'
+              onKeyDown={handleTitleKeydown}
+              onChange={handleTitleChange}
+            >
+
+            </textarea>
           </div>
         </section>
       </AnimationWraper>
