@@ -11,7 +11,7 @@ const blogStructure = {
     content: [],
     tags: [],
     des: '',
-    author: {personal_info: {}}
+    author: { personal_info: {} }
 }
 
 export const EditorContext = createContext({})
@@ -24,8 +24,11 @@ export default function EditorPage() {
     let { userAuth } = useContext(UserContext) as any;
 
     return (
-        userAuth?.access_token === null ? 
-            <>{redirect('/signin')}</> : editorState ? <BlogEditor /> : <PublicForm />
-
+        <EditorContext.Provider value={{blog, setBlog, editorState, setEditorSetate}}>
+            {
+                userAuth?.access_token === null ? <>{redirect('/signin')}</> 
+                : editorState ? <BlogEditor /> : <PublicForm />
+            }
+        </EditorContext.Provider>
     )
 }

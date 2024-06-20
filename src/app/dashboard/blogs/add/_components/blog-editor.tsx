@@ -3,22 +3,26 @@ import AnimationWraper from '@/common/AnimationWraper'
 import Image from 'next/image'
 import defaultBanner from '../../../../../../public/imgs/blog banner.png'
 import { uploadImage } from '@/apiRequests/blogs'
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
+import { EditorContext } from '../page'
 export default function BlogEditor() {
-  const [urlBanner, setUrlBanner] = useState<string>();
 
-  let imgBannerRef = useRef()  as any
+  let {blog, blog : {title, banner, content, tags, des}, setBlog} = useContext(EditorContext) as any
+  
+
   const handleBanner = async (e :any) => {
     let img = e.target.files[0]
     let formData = new FormData()
     formData.append('image', img) 
     
     try {
+      let loadingToast = toast.loading('uploading banner ....')
       const url = await uploadImage(formData)
       console.log(url);
       if(url){
-        setUrlBanner(url)
+        setBlog({...blog, banner: url});
+        toast.dismiss(loadingToast);
         toast.success('upload banner success');
       }
       
@@ -36,6 +40,8 @@ export default function BlogEditor() {
 
     input.style.height = 'auto';
     input.style.height = input.scrollHeight + 'px'
+
+    setBlog({...blog, title: input.value})
   }
 
   return (
@@ -57,7 +63,7 @@ export default function BlogEditor() {
               <label htmlFor="uploadBanner">
                 <Image
                   // ref={imgBannerRef}
-                  src={urlBanner ? urlBanner : defaultBanner}
+                  src={banner || defaultBanner}
                   alt="Picture of the author"
                   width={500}
                   height={500}
@@ -81,8 +87,9 @@ export default function BlogEditor() {
               onKeyDown={handleTitleKeydown}
               onChange={handleTitleChange}
             >
-
             </textarea>
+
+            <hr className='w-full opacity-10 my-5 ' />
           </div>
         </section>
       </AnimationWraper>
