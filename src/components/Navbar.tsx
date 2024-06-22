@@ -46,7 +46,7 @@ export default function Navbar() {
                 <NavigationMenuDemo />
                 <div className='flex gap-3 items-center md:gap-6 ml-auto'>
                     
-                    <Link href='/dashboard/blogs/add' className='hidden items-center md:flex gap-2'>
+                    <Link href='/dashboard/blogs/editor' className='hidden items-center md:flex gap-2'>
                         <Button variant="ghost"> <i className='fi fi-rr-file-edit px-1'></i> Write</Button>
                     </Link>
                     <button
