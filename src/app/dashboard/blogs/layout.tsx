@@ -6,13 +6,8 @@ export default function RootLayout({
 }>) {
 
   return (
-    // <div className="flex">
-    //   <div className="w-1/3">
-    //     nav-left
-    //   </div>
     <>
       {children}
     </>
-    // </div>
   );
 }

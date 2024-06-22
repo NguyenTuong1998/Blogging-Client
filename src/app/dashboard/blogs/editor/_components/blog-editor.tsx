@@ -3,9 +3,16 @@ import AnimationWraper from '@/common/AnimationWraper'
 import Image from 'next/image'
 import defaultBanner from '../../../../../../public/imgs/blog banner.png'
 import { uploadImage } from '@/apiRequests/blogs'
-import { useContext, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { EditorContext } from '../page'
+import EditorJS from '@editorjs/editorjs'
+import { Tools } from '@/components/Tools'
+
+
+export interface EditorConfig {
+
+}
 export default function BlogEditor() {
 
   let {blog, blog : {title, banner, content, tags, des}, setBlog} = useContext(EditorContext) as any
@@ -43,6 +50,15 @@ export default function BlogEditor() {
 
     setBlog({...blog, title: input.value})
   }
+
+  useEffect(() => {
+    let editor = new EditorJS({
+      holder: 'textEditor',
+      data: '' as any,
+      tools: Tools,
+      placeholder: 'Let`s write an awesome story!'
+    })
+  },[])
 
   return (
     <>
@@ -89,7 +105,11 @@ export default function BlogEditor() {
             >
             </textarea>
 
-            <hr className='w-full opacity-10 my-5 ' />
+            <hr style={{
+              border: '1px red #000'
+            }} className='w-full opacity-80 my-5 ' />
+
+            <div id='textEditor'></div>
           </div>
         </section>
       </AnimationWraper>
