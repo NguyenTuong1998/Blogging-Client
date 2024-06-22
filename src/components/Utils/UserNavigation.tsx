@@ -16,20 +16,20 @@ const UserNavigation = () => {
       transition={{ duration: 0.2 }}
     >
       <div className="bg-white absolute right-0 border text-sm border-grey w-60 overflow-hidden duration-200">
-        <Link href='/editor' className="flex gap-2 text-sm items-center md:hiddenlink link pl-8 py-4">
+        <Link href='/editor' className="flex gap-2 text-base items-center md:hiddenlink link pl-8 py-4">
           <i className='fi fi-rr-file-edit'></i>
           Write
         </Link>
 
-        <Link href={`/user/${userAuth?.username}`} className="link pl-8 py-4 text-sm items-center">
+        <Link href={`/user/${userAuth?.username}`} className="link pl-8 py-4 text-base items-center">
           Profile
         </Link>
 
-        <Link href='/dashboard/blogs' className="link pl-8 py-4 text-sm items-center">
+        <Link href='/dashboard/blogs' className="link pl-8 py-4 text-base items-center">
           Dashboard
         </Link>
 
-        <Link href='/setting/edit-profile' className="link flex pl-8 py-4 text-sm items-center">
+        <Link href='/setting/edit-profile' className="link flex pl-8 py-4 text-base items-center">
           Setting
         </Link>
         <span className="absolute border-t border-grey w-[200%]"></span>

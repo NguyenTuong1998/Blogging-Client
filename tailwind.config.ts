@@ -10,15 +10,15 @@ const config = {
   ],
   prefix: "",
   theme: {
-  //   fontSize: {
-  //     'sm': '12px',
-  //     'base': '14px',
-  //     'xl': '16px',
-  //     '2xl': '20px',
-  //     '3xl': '28px',
-  //     '4xl': '38px',
-  //     '5xl': '50px',
-  // },
+    fontSize: {
+      'sm': '12px',
+      'base': '14px',
+      'xl': '16px',
+      '2xl': '20px',
+      '3xl': '28px',
+      '4xl': '38px',
+      '5xl': '50px',
+  },
     container: {
       center: true,
       padding: "2rem",
@@ -89,6 +89,10 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      fontFamily: {
+        inter: ["'Inter'", "sans-serif"],
+        gelasio: ["'Gelasio'", "serif"]
       },
     },
   },

@@ -137,7 +137,7 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
               placeholder='Password'
               icon='fi-rr-key'
             />
-            <Button className="block m-auto" onClick={handleSubmit}>{type.replace('-', '') === 'signin' ? ' Sign In' : 'Sign Up'}</Button>
+            <Button className="block m-auto text-base" onClick={handleSubmit}>{type.replace('-', '') === 'signin' ? ' Sign In' : 'Sign Up'}</Button>
 
             {/* <button
             className='btn-dark center mt-14'
@@ -152,7 +152,7 @@ const UserAuthForm: React.FC<authProps> = ({ type }) => {
               <p>or</p>
               <hr className='w-1/2 border-black' />
             </div>
-            <Button className='flex items-center justify-center gap-4 w-[90%] center' onClick={handleSigninGoogle}>
+            <Button className='flex items-center justify-center gap-4 w-[90%] center text-base' onClick={handleSigninGoogle}>
               <Image
                 src={googleIcon}
                 width={500}

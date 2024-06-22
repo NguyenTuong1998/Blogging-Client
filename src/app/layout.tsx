@@ -46,7 +46,7 @@ export default function RootLayout({
           fontSans.variable
         )}>
         <UserContext.Provider value={{userAuth, setUserAuth}} >
-          <Navbar />
+          {/* <Navbar /> */}
           {children}
         </UserContext.Provider>
 

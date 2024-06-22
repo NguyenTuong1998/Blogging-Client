@@ -56,7 +56,7 @@ export default function BlogEditor() {
       holder: 'textEditor',
       data: '' as any,
       tools: Tools,
-      placeholder: 'Let`s write an awesome story!'
+      placeholder: "Let's write an awesome story!"
     })
   },[])
 
@@ -109,7 +109,7 @@ export default function BlogEditor() {
               border: '1px red #000'
             }} className='w-full opacity-80 my-5 ' />
 
-            <div id='textEditor'></div>
+            <div id='textEditor' className='font-gelasio'></div>
           </div>
         </section>
       </AnimationWraper>

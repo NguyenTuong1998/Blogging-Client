@@ -46,8 +46,8 @@ export default function Navbar() {
                 <NavigationMenuDemo />
                 <div className='flex gap-3 items-center md:gap-6 ml-auto'>
                     
-                    <Link href='/dashboard/blogs/editor' className='hidden items-center md:flex gap-2'>
-                        <Button variant="ghost"> <i className='fi fi-rr-file-edit px-1'></i> Write</Button>
+                    <Link href='/dashboard/blogs/editor' className='hidden text-base items-center md:flex gap-2'>
+                        <Button className='text-base' variant="ghost"> <i className='fi fi-rr-file-edit px-1'></i> Write</Button>
                     </Link>
                     <button
                         onClick={() => setSearchBoxVisibility(!searchBoxVisibility)}
@@ -87,12 +87,12 @@ export default function Navbar() {
 
                             <>
                                 <Link href='/signin'>
-                                <Button className='rounded-xl px-6'>
+                                <Button className='rounded-xl px-6 text-base'>
                                      Sign In
                                 </Button>
                                 </Link>
                                 <Link href='/signup'>
-                                <Button variant="secondary" className='rounded-xl px-6'>
+                                <Button variant="secondary" className='text-base rounded-xl px-6'>
                                      Sign Up
                                 </Button>
                                 </Link>

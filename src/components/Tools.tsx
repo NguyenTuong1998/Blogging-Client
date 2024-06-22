@@ -9,7 +9,10 @@ import InlineCode from '@editorjs/inline-code'
 
 export const Tools = {
     embed: Embed,
-    list: List,
+    list: {
+        class: List,
+        inlineToolbar: true,
+    },
     image: Image,
     header: Header,
     quote: Quote,
