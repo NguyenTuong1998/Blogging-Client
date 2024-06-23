@@ -9,15 +9,12 @@ import { EditorContext } from '../page'
 import EditorJS from '@editorjs/editorjs'
 import { Tools } from '@/components/Tools'
 
-
-export interface EditorConfig {
-
-}
 export default function BlogEditor() {
 
-  let {blog, blog : {title, banner, content, tags, des}, setBlog} = useContext(EditorContext) as any
+  let {blog, blog : {title, banner, content, tags, des}, 
+        setBlog, textEditor,
+        setTextEditor, setEditorState} = useContext(EditorContext) as any
   
-
   const handleBanner = async (e :any) => {
     let img = e.target.files[0]
     let formData = new FormData()
@@ -51,27 +48,50 @@ export default function BlogEditor() {
     setBlog({...blog, title: input.value})
   }
 
+  const handlePublicEvent = () => {
+    // if(!banner.length) return toast.error('Upload a banner to publish it...')
+
+    // if(!title.length) return toast.error('Write blog title to publish it...')
+
+    if(textEditor.isReady){
+      textEditor.save().then((result: any) => {
+        console.log(result);
+        
+        if(result.blocks.length){
+            setBlog({...blog, content: result})
+            setEditorState('Publish')
+        }else{
+          return toast.error('Write something in your blog to publish it')
+        }
+        
+      }).catch((err : any) => {
+        console.log(err);
+        
+      });
+    }
+  }
+
   useEffect(() => {
-    let editor = new EditorJS({
+    setTextEditor(new EditorJS({
       holder: 'textEditor',
       data: '' as any,
       tools: Tools,
       placeholder: "Let's write an awesome story!"
-    })
+    }))
   },[])
 
   return (
     <>
-    <Toaster/>
       <nav className='navbar'>
         <p className='max-md:hiđen  text-black line-clamp-1 w-full'>
           New Blog
         </p>
         <div className='flex gap-4 ml-auto'>
-          <Button>Publish</Button>
+          <Button onClick={handlePublicEvent}>Publish</Button>
           <Button variant="ghost">Save Draft</Button>
         </div>
       </nav>
+      <Toaster/>
       <AnimationWraper>
         <section>
           <div className='max-auto max-w-900px] w-full'>
