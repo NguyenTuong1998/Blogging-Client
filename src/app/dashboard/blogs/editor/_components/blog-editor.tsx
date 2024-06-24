@@ -10,6 +10,7 @@ import { EditorContext } from '../page'
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { Tools } from '@/components/Tools'
 
+
 export default function BlogEditor() {
   const editorRef = useRef<EditorJS | null>(null)
   const initialData = {
@@ -65,9 +66,8 @@ export default function BlogEditor() {
 
     if(!title.length) return toast.error('Write blog title to publish it...')
 
-    if(textEditor.isReady){
+    if(editorRef.current){
       await editorRef.current?.save().then((result: OutputData) => {
-        console.log(result);
         
         if(result.blocks.length){
           setBlog({...blog, content: result})
@@ -82,9 +82,10 @@ export default function BlogEditor() {
       });
     }
 
-    console.log(blog);
     
   }
+
+
 
   useEffect(() => {
     // Initialize EditorJS
@@ -92,8 +93,8 @@ export default function BlogEditor() {
       holder: "editor-container", // Specify the container element by its id
       autofocus: true, // Autofocus on the editor when it loads
       tools: Tools, // Add your custom tools here
-      placeholder: "📝 Let's write an awesome 💁 "
-      // data: initialData, // Pass the initial data to the editor
+      placeholder: "📝 Let's write an awesome 💁 ",
+      data: initialData, // Pass the initial data to the editor
     });
 
     // Cleanup function to destroy the editor when the component unmounts
@@ -107,9 +108,9 @@ export default function BlogEditor() {
   return (
     <>
       <nav className='navbar'>
-        <p className='max-md:hiđen  text-black line-clamp-1 w-full'>
-          New Blog
-        </p>
+        <h2 className=" max-md:hiđen  text-black line-clamp-1 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+          {title ? title : 'New Blog'}
+        </h2>
         <div className='flex gap-4 ml-auto'>
           <Button onClick={handlePublicEvent}>Publish</Button>
           <Button variant="ghost">Save Draft</Button>
