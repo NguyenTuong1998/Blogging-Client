@@ -10,7 +10,7 @@ const  PublicForm = dynamic(() => import('@/app/dashboard/blogs/editor/_componen
 const blogStructure = {
     title: '',
     banner: '',
-    content: [],
+    content: {},
     tags: [],
     des: '',
     author: { personal_info: {} }
@@ -31,7 +31,7 @@ export default function EditorPage() {
         <EditorContext.Provider value={{blog, setBlog, editorState, setEditorState, textEditor, setTextEditor}}>
             {
                 userAuth?.access_token === null ? <>{redirect('/signin')}</> 
-                : editorState ? <BlogEditor /> : <PublicForm />
+                : editorState === 'editor' ? <BlogEditor /> : <PublicForm />
             }
         </EditorContext.Provider>
     )

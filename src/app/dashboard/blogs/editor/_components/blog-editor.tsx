@@ -22,7 +22,7 @@ export default function BlogEditor() {
         },
       },
     ],
-    version: "2.19.0",
+    version: "2.29.1",
   };
   let {blog, blog : {title, banner, content, tags, des}, 
         setBlog, textEditor,
@@ -62,12 +62,14 @@ export default function BlogEditor() {
   }
 
   const handlePublicEvent = async() => {
-    if(!banner.length) return toast.error('Upload a banner to publish it...')
+    // if(!banner.length) return toast.error('Upload a banner to publish it...')
 
-    if(!title.length) return toast.error('Write blog title to publish it...')
+    // if(!title.length) return toast.error('Write blog title to publish it...')
 
+      // if(textEditor.isReady){
     if(editorRef.current){
       await editorRef.current?.save().then((result: OutputData) => {
+        console.log(result);
         
         if(result.blocks.length){
           setBlog({...blog, content: result})
@@ -85,8 +87,6 @@ export default function BlogEditor() {
     
   }
 
-
-
   useEffect(() => {
     // Initialize EditorJS
     editorRef.current = new EditorJS({
@@ -96,7 +96,8 @@ export default function BlogEditor() {
       placeholder: "📝 Let's write an awesome 💁 ",
       data: initialData, // Pass the initial data to the editor
     });
-
+    
+    setTextEditor(editorRef.current)
     // Cleanup function to destroy the editor when the component unmounts
     return () => {
       if (editorRef.current) {
@@ -145,6 +146,7 @@ export default function BlogEditor() {
               </label>
             </div>
             <textarea
+              defaultValue={title}
               placeholder='Blog Title'
               className='text-4xl w-full h-20 outline-none resize-none mt-10 leading-tight placeholder:opacity-40'
               onKeyDown={handleTitleKeydown}
