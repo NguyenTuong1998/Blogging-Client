@@ -29,7 +29,7 @@ export default function Navbar() {
         <>
             <nav className='navbar'>
                 <Link href='/' className='flex-none w-10'>
-                    <Image src={logo} className='w-full' alt="logo-dashboard" priority height="100"
+                    <Image  rel="stylesheet preload prefetch" src={logo} className='w-full' alt="logo-dashboard" priority height="100"
                         width="100" />
                 </Link>
                 <div className={`
@@ -46,7 +46,7 @@ export default function Navbar() {
                 <NavigationMenuDemo />
                 <div className='flex gap-3 items-center md:gap-6 ml-auto'>
                     
-                    <Link href='/dashboard/blogs/editor' className='hidden text-base items-center md:flex gap-2'>
+                    <Link href='/dashboard/blogs/editor' rel="stylesheet preload prefetch"  className='hidden text-base items-center md:flex gap-2'>
                         <Button className='text-base' variant="ghost"> <i className='fi fi-rr-file-edit px-1'></i> Write</Button>
                     </Link>
                     <button

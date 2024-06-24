@@ -2,8 +2,10 @@
 import { useContext, useEffect, useState, createContext } from 'react'
 import { UserContext } from '@/app/layout'
 import { redirect } from 'next/navigation'
-import BlogEditor from '@/app/dashboard/blogs/editor/_components/blog-editor'
-import PublicForm from '@/app/dashboard/blogs/editor/_components/public-form'
+import dynamic from 'next/dynamic'
+
+const  BlogEditor = dynamic(() => import('@/app/dashboard/blogs/editor/_components/blog-editor'),{ssr: false})
+const  PublicForm = dynamic(() => import('@/app/dashboard/blogs/editor/_components/public-form'), {ssr: false})
 
 const blogStructure = {
     title: '',

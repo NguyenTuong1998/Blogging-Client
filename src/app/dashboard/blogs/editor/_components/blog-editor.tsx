@@ -1,3 +1,4 @@
+'use client'
 import { Button } from '@/components/ui/button'
 import AnimationWraper from '@/common/AnimationWraper'
 import Image from 'next/image'
@@ -6,11 +7,11 @@ import { uploadImage } from '@/apiRequests/blogs'
 import { useContext, useEffect, useRef, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { EditorContext } from '../page'
-import EditorJS from '@editorjs/editorjs'
+import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { Tools } from '@/components/Tools'
-import Editor from './editor'
 
 export default function BlogEditor() {
+  const editorRef = useRef<EditorJS | null>(null)
   const initialData = {
     blocks: [
       {
@@ -59,37 +60,49 @@ export default function BlogEditor() {
     setBlog({...blog, title: input.value})
   }
 
-  const handlePublicEvent = () => {
-    // if(!banner.length) return toast.error('Upload a banner to publish it...')
+  const handlePublicEvent = async() => {
+    if(!banner.length) return toast.error('Upload a banner to publish it...')
 
-    // if(!title.length) return toast.error('Write blog title to publish it...')
+    if(!title.length) return toast.error('Write blog title to publish it...')
 
     if(textEditor.isReady){
-      textEditor.save().then((result: any) => {
+      await editorRef.current?.save().then((result: OutputData) => {
         console.log(result);
         
         if(result.blocks.length){
-            setBlog({...blog, content: result})
-            setEditorState('Publish')
+          setBlog({...blog, content: result})
+          setEditorState('Publish')
         }else{
           return toast.error('Write something in your blog to publish it')
         }
-        
-      }).catch((err : any) => {
+      })
+      .catch((err : any) => {
         console.log(err);
         
       });
     }
+
+    console.log(blog);
+    
   }
 
   useEffect(() => {
-    setTextEditor(new EditorJS({
-      holder: 'textEditor',
-      data: '' as any,
-      tools: Tools,
-      placeholder: "Let's write an awesome story!"
-    }))
-  },[])
+    // Initialize EditorJS
+    editorRef.current = new EditorJS({
+      holder: "editor-container", // Specify the container element by its id
+      autofocus: true, // Autofocus on the editor when it loads
+      tools: Tools, // Add your custom tools here
+      placeholder: "📝 Let's write an awesome 💁 "
+      // data: initialData, // Pass the initial data to the editor
+    });
+
+    // Cleanup function to destroy the editor when the component unmounts
+    return () => {
+      if (editorRef.current) {
+        editorRef.current?.destroy;
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -110,6 +123,7 @@ export default function BlogEditor() {
               <label htmlFor="uploadBanner">
                 <Image
                   // ref={imgBannerRef}
+                  rel="stylesheet preload prefetch"
                   src={banner || defaultBanner}
                   alt="Picture of the author"
                   width={500}
@@ -118,6 +132,7 @@ export default function BlogEditor() {
                   style={{
                     objectFit: 'cover',
                   }}
+                  priority={true}
                 />
                 <input 
                   type="file" 
@@ -139,8 +154,8 @@ export default function BlogEditor() {
             <hr style={{
               border: '1px red #000'
             }} className='w-full opacity-80 my-5 ' />
-
-<Editor initialData={initialData} />
+            {/* <Editor initialData={initialData} /> */}
+            <div id="editor-container"></div>
           </div>
         </section>
       </AnimationWraper>
