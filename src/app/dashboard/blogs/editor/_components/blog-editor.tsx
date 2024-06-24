@@ -8,9 +8,20 @@ import toast, { Toaster } from 'react-hot-toast'
 import { EditorContext } from '../page'
 import EditorJS from '@editorjs/editorjs'
 import { Tools } from '@/components/Tools'
+import Editor from './editor'
 
 export default function BlogEditor() {
-
+  const initialData = {
+    blocks: [
+      {
+        type: "paragraph",
+        data: {
+          text: "Hello, this is the initial content loaded from JSON!",
+        },
+      },
+    ],
+    version: "2.19.0",
+  };
   let {blog, blog : {title, banner, content, tags, des}, 
         setBlog, textEditor,
         setTextEditor, setEditorState} = useContext(EditorContext) as any
@@ -129,7 +140,7 @@ export default function BlogEditor() {
               border: '1px red #000'
             }} className='w-full opacity-80 my-5 ' />
 
-            <div id='textEditor' className='font-gelasio'></div>
+<Editor initialData={initialData} />
           </div>
         </section>
       </AnimationWraper>
