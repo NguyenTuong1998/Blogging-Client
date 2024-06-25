@@ -62,17 +62,18 @@ export default function BlogEditor() {
   }
 
   const handlePublicEvent = async() => {
-    // if(!banner.length) return toast.error('Upload a banner to publish it...')
+    if(!banner.length) return toast.error('Upload a banner to publish it...')
 
-    // if(!title.length) return toast.error('Write blog title to publish it...')
+    if(!title.length) return toast.error('Write blog title to publish it...')
 
       // if(textEditor.isReady){
     if(editorRef.current){
       await editorRef.current?.save().then((result: OutputData) => {
         console.log(result);
-        
+
         if(result.blocks.length){
           setBlog({...blog, content: result})
+
           setEditorState('Publish')
         }else{
           return toast.error('Write something in your blog to publish it')
@@ -84,26 +85,31 @@ export default function BlogEditor() {
       });
     }
 
-    
   }
+  
 
   useEffect(() => {
     // Initialize EditorJS
-    editorRef.current = new EditorJS({
-      holder: "editor-container", // Specify the container element by its id
-      autofocus: true, // Autofocus on the editor when it loads
-      tools: Tools, // Add your custom tools here
-      placeholder: "📝 Let's write an awesome 💁 ",
-      data: initialData, // Pass the initial data to the editor
-    });
+    if (!editorRef.current) {
+      const editor = new EditorJS({
+        holder: "editor-container", // Specify the container element by its id
+        autofocus: true, // Autofocus on the editor when it loads
+        tools: Tools, // Add your custom tools here
+        placeholder: "📝 Let's write an awesome 💁 ",
+        data: content, // Pass the initial data to the editor
+      });
+      
+      editorRef.current = editor
+      setTextEditor(editor)
+    }
     
-    setTextEditor(editorRef.current)
     // Cleanup function to destroy the editor when the component unmounts
     return () => {
-      if (editorRef.current) {
-        editorRef.current?.destroy;
+      if (editorRef.current && editorRef.current.destroy) { 
+        editorRef.current?.destroy();
       }
     };
+    
   }, []);
 
   return (

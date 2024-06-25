@@ -7,6 +7,17 @@ import dynamic from 'next/dynamic'
 const  BlogEditor = dynamic(() => import('@/app/dashboard/blogs/editor/_components/blog-editor'),{ssr: false})
 const  PublicForm = dynamic(() => import('@/app/dashboard/blogs/editor/_components/public-form'), {ssr: false})
 
+const initialData = {
+    blocks: [
+      {
+        type: "paragraph",
+        data: {
+          text: "Hello, this is the initial content loaded from JSON!",
+        },
+      },
+    ],
+    version: "2.29.1",
+};
 const blogStructure = {
     title: '',
     banner: '',
