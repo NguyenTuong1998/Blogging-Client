@@ -4,7 +4,13 @@ import { Button } from '@/components/ui/button'
 import { useContext } from 'react'
 import { EditorContext } from '@/app/dashboard/blogs/editor/page'
 import Image from 'next/image'
+import { Tags } from '@/components/Tags'
+
+
 let characterLimit = 200
+let tagLimit = 10
+
+
 export default function PublicForm() {
 
   let { blog, blog: { title, banner, content, tags, des },
@@ -13,6 +19,26 @@ export default function PublicForm() {
 
   const handleTitleKeydown = (e: any) => {
     if (e.keyCode == 13) e.preventDefault();
+  }
+
+  const handleKeyDown = (e: any) => {
+    if (e.keyCode === 13 || e.keyCode === 108) {
+      e.preventDefault()
+
+      let tag = e.target.value
+
+      if (tags.length < tagLimit) {
+        if (!tags.includes(tag) && tag, length) {
+          setBlog({ ...blog, tags: [...tags] })
+
+        }
+      }else{
+        toast.error('You can add max tag limit')
+      }
+
+      e.target.value = ""
+    }
+
   }
   return (
     <AnimationWraper>
@@ -67,7 +93,20 @@ export default function PublicForm() {
 
           <p>Topics - (Helps is searching and ranking your blog post)</p>
 
+          <div className='relative input-box pl-2 py-2 pb-4'>
+            <input
+              type="text"
+              placeholder='Topic'
+              className='sticky input-box bg-white top-0 left-0 pl-4 mb-3 focus:bg-white'
+              onKeyDown={handleKeyDown}
+            />
 
+            {tags.map((tag: any, i: any) => {
+              return <Tags tag={tag} key={i} />
+            })}
+
+
+          </div>
         </div>
 
       </section>
