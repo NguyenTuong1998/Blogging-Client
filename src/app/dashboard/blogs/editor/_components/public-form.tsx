@@ -8,7 +8,7 @@ import { Tags } from '@/components/Tags'
 
 
 let characterLimit = 200
-let tagLimit = 110
+let tagLimit = 10
 
 
 export default function PublicForm() {
@@ -107,6 +107,12 @@ export default function PublicForm() {
               return <Tags tag={tag} tagIndex= {i} key={i} />
             })}
           </div>
+
+          <p className='mt-1 mb-4 text-dark-grey text-right'>
+            {tagLimit - tags.length} Tags left
+          </p>
+
+          <Button className='my-3'>Publish</Button>
         </div>
 
       </section>
