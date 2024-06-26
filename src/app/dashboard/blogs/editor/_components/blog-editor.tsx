@@ -165,9 +165,11 @@ export default function BlogEditor() {
               border: '1px red #000'
             }} className='w-full opacity-80 my-5 ' />
             {/* <Editor initialData={initialData} /> */}
-            <div id="editor-container"></div>
+            <div id="editor-container">
+              {/* <EmojiPicker open={false}/> */}
+            </div>
           </div>
-          <EmojiPicker/>
+          
         </section>
       </AnimationWraper>
     </>

@@ -12,6 +12,7 @@ import {getAuth} from 'firebase-admin/auth'
 
 import cloudinary from './configs/cloudinary.js'
 import upload from './middleware/multer.js'
+import Blog from './Schema/Blog.js'
 
 const server = express();
 let PORT = 3000;
@@ -187,6 +188,44 @@ server.post('/upload-image', upload.single('image'), (req, res) => {
 })
 
 server.post('/create-blog', verifyJWT, (req, res) => {
+    let authorId = req.user
+
+    let {title, des, banner, content, tags, draft} = req.body
+
+    if(!title.length) return res.status(403).json({error: 'You must provide a title publish the blog'});
+
+    if(!des. length) return res.status(403).json({error: 'You must provide blog description under 200 characters'});
+
+    if(!banner.length) return res.status(403).json({error: 'you must provide blog banner to publish it'});
+    console.log(content.blocks);
+    if(!content.blocks.length) res.status(403).json({error: 'There must be some blog content to publish it'});
+
+    if(!tags.length || tags.length > 10) res.status(403).json({error: 'Provide tags in order to publish the blog, Maximum 10'});
+
+    tags = tags.map(tag => tag.toLowerCase());
+
+    let blogId = title.replace(/[^a-zA-Z0-9]/g, '').replace(/\s+/g, "-").trim() + nanoid();
+
+    let blog = new Blog({
+        title, des, banner, content, tags, author: authorId, blogId, draft: Boolean(draft)
+    })
+
+    blog.save().then(blog => {
+        let incrementVal = draft ? 0 : 1;
+
+        User.findOneAndUpdate({_id: authorId}, {$inc: {'account_info.total_posts': incrementVal}, $push : {blogs: blogId}})
+        .then(user => {
+            return res.status(200).json({id: blog.blogId})
+        })
+        .catch(error => {
+            return res.status(500).json({error: "Failed to update total posts number"})
+        })
+    })
+    .catch(err => {
+        return res.status(500).json({error: err.message})
+    })
+    return res.json({status: 'done'})
+
 
 })
 

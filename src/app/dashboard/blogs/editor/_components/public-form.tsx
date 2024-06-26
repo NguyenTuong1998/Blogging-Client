@@ -5,7 +5,9 @@ import { useContext, useState } from 'react'
 import { EditorContext } from '@/app/dashboard/blogs/editor/page'
 import Image from 'next/image'
 import { Tags } from '@/components/Tags'
-
+import axios from 'axios'
+import { UserContext } from '@/app/layout'
+import { redirect } from 'next/navigation'
 
 let characterLimit = 200
 let tagLimit = 10
@@ -18,6 +20,8 @@ export default function PublicForm() {
   let { blog, blog: { title, banner, content, tags, des },
     setBlog, textEditor,
     setTextEditor, setEditorState } = useContext(EditorContext) as any
+
+  let {userAuth: {access_token}} = useContext(UserContext)as any
 
   const handleTitleKeydown = (e: any) => {
     if (e.keyCode == 13) e.preventDefault();
@@ -35,13 +39,54 @@ export default function PublicForm() {
           setValue('')
 
         }
-      }else{
+      } else {
         toast.error('You can add max tag limit')
       }
 
       e.target.value = ""
     }
 
+  }
+
+  const publicBlogs = (e: any) => {
+
+    // if(e.target.className.includes('disable')) return;
+
+    if (!title.length) return toast.error("Write blog title before publishing")
+
+    if (!des.length || des.length > characterLimit) {
+      return toast.error(`Write description about your blog withing ${characterLimit} characters to public`)
+    }
+
+    if (!tags.length) return toast.error("Enter at least 1 tag to help us rank your blog")
+
+    let loadingToast = toast.loading('Publishing....')
+
+    e.target.classList.add('disable')
+
+    let blogObj = {title, banner, des, content, tags, draft: false}
+
+    axios.post(process.env.VITE_SERVER_DOMAIN + 'create-blog', blogObj, {
+      headers:{
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+    .then(() => {
+      e.target.classList.remove('disable')
+
+      toast.dismiss(loadingToast)
+      toast.success("Published 🚀🚀")
+
+      setTimeout(() => {
+        redirect('/')
+      }, 500)
+    })
+    .catch(({response}) => {
+      e.target.classList.remove('disable')
+      toast.dismiss(loadingToast)
+      
+      return toast.error(response.data.error)
+    })
   }
   return (
     <AnimationWraper>
@@ -104,7 +149,7 @@ export default function PublicForm() {
             />
 
             {tags.map((tag: any, i: any) => {
-              return <Tags tag={tag} tagIndex= {i} key={i} />
+              return <Tags tag={tag} tagIndex={i} key={i} />
             })}
           </div>
 
@@ -112,7 +157,7 @@ export default function PublicForm() {
             {tagLimit - tags.length} Tags left
           </p>
 
-          <Button className='my-3'>Publish</Button>
+          <Button className='my-3' onClick={publicBlogs}>Publish</Button>
         </div>
 
       </section>
