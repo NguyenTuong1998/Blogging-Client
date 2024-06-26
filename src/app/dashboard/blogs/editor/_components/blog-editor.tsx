@@ -9,6 +9,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { EditorContext } from '../page'
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { Tools } from '@/components/Tools'
+import EmojiPicker from 'emoji-picker-react';
 
 
 export default function BlogEditor() {
@@ -166,6 +167,7 @@ export default function BlogEditor() {
             {/* <Editor initialData={initialData} /> */}
             <div id="editor-container"></div>
           </div>
+          <EmojiPicker/>
         </section>
       </AnimationWraper>
     </>
