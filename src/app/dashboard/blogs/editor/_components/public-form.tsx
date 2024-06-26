@@ -1,17 +1,19 @@
 import { Toaster, toast } from 'react-hot-toast'
 import AnimationWraper from '@/common/AnimationWraper'
 import { Button } from '@/components/ui/button'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { EditorContext } from '@/app/dashboard/blogs/editor/page'
 import Image from 'next/image'
 import { Tags } from '@/components/Tags'
 
 
 let characterLimit = 200
-let tagLimit = 10
+let tagLimit = 110
 
 
 export default function PublicForm() {
+  const [value, setValue] = useState('JS')
+
 
   let { blog, blog: { title, banner, content, tags, des },
     setBlog, textEditor,
@@ -22,14 +24,15 @@ export default function PublicForm() {
   }
 
   const handleKeyDown = (e: any) => {
-    if (e.keyCode === 13 || e.keyCode === 108) {
+    if (e.keyCode === 13 || e.keyCode === 9) {
       e.preventDefault()
 
       let tag = e.target.value
 
       if (tags.length < tagLimit) {
-        if (!tags.includes(tag) && tag, length) {
-          setBlog({ ...blog, tags: [...tags] })
+        if (!tags.includes(tag) && tag.length) {
+          setBlog({ ...blog, tags: [...tags, tag] })
+          setValue('')
 
         }
       }else{
@@ -74,7 +77,6 @@ export default function PublicForm() {
           <input
             type="text"
             placeholder='Blog Title'
-            defaultValue={title}
             value={title} className='input-box pl-4'
             onChange={(e) => setBlog({ ...blog, title: e.target.value })} />
 
@@ -102,10 +104,8 @@ export default function PublicForm() {
             />
 
             {tags.map((tag: any, i: any) => {
-              return <Tags tag={tag} key={i} />
+              return <Tags tag={tag} tagIndex= {i} key={i} />
             })}
-
-
           </div>
         </div>
 
