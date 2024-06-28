@@ -9,13 +9,13 @@ import toast, { Toaster } from 'react-hot-toast'
 import { EditorContext } from '../page'
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { Tools } from '@/components/Tools'
-import EmojiPicker from 'emoji-picker-react';
 import axios from 'axios'
 import { UserContext } from '@/app/layout'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export default function BlogEditor() {
   const editorRef = useRef<EditorJS | null>(null)
+  const router = useRouter();
   const initialData = {
     blocks: [
       {
@@ -73,7 +73,7 @@ export default function BlogEditor() {
     if(!title.length) return toast.error('Write blog title to publish it...')
 
       // if(textEditor.isReady){
-    if(textEditor.isReady && editorRef.current){
+    if(editorRef.current){
       await editorRef.current?.save().then((result: OutputData) => {
         console.log(result);
 
@@ -122,7 +122,7 @@ export default function BlogEditor() {
           toast.success("Saved Draft 🚀🚀")
     
           setTimeout(() => {
-            redirect('/')
+            router.push('/')
           }, 500)
         })
         .catch(({response}) => {

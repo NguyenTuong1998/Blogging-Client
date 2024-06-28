@@ -7,13 +7,14 @@ import Image from 'next/image'
 import { Tags } from '@/components/Tags'
 import axios from 'axios'
 import { UserContext } from '@/app/layout'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 let characterLimit = 200
 let tagLimit = 10
 
 
 export default function PublicForm() {
+  const router = useRouter()
   const [value, setValue] = useState('JS')
 
 
@@ -50,9 +51,9 @@ export default function PublicForm() {
 
   const publicBlogs = (e: any) => {
 
-    if(e.target.className.includes('disable')){
-      return;
-    }
+    // if(e.target.className.includes('disable')){
+    //   return;
+    // }
 
     if (!title.length) return toast.error("Write blog title before publishing")
 
@@ -80,7 +81,7 @@ export default function PublicForm() {
       toast.success("Published 🚀🚀")
 
       setTimeout(() => {
-        redirect('/')
+        router.push('/')
       }, 500)
     })
     .catch(({response}) => {

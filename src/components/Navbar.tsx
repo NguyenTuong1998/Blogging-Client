@@ -69,7 +69,7 @@ export default function Navbar() {
                                         onBlur={handleBlur}
                                     >
                                         <Avatar>
-                                            <AvatarImage src={userAuth?.profile_img} />
+                                            <AvatarImage alt='avatar-logied' src={userAuth?.profile_img} />
                                             <AvatarFallback>CN</AvatarFallback>
                                         </Avatar>
                                         {/* <img src={userAuth?.profile_img}
