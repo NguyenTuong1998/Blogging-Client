@@ -10,7 +10,9 @@ import { EditorContext } from '../page'
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { Tools } from '@/components/Tools'
 import EmojiPicker from 'emoji-picker-react';
-
+import axios from 'axios'
+import { UserContext } from '@/app/layout'
+import { redirect } from 'next/navigation'
 
 export default function BlogEditor() {
   const editorRef = useRef<EditorJS | null>(null)
@@ -28,6 +30,9 @@ export default function BlogEditor() {
   let {blog, blog : {title, banner, content, tags, des}, 
         setBlog, textEditor,
         setTextEditor, setEditorState} = useContext(EditorContext) as any
+
+  let {userAuth: {access_token}} = useContext(UserContext)as any
+
   
   const handleBanner = async (e :any) => {
     let img = e.target.files[0]
@@ -68,7 +73,7 @@ export default function BlogEditor() {
     if(!title.length) return toast.error('Write blog title to publish it...')
 
       // if(textEditor.isReady){
-    if(editorRef.current){
+    if(textEditor.isReady && editorRef.current){
       await editorRef.current?.save().then((result: OutputData) => {
         console.log(result);
 
@@ -87,6 +92,50 @@ export default function BlogEditor() {
     }
 
   }
+
+  const handelSaveDraft = (e : any) => {
+
+    // if(e.target.className.includes('disable')){
+    //   return;
+    // }
+
+    if (!title.length) return toast.error("Write blog title before saving it as a draft")
+
+    let loadingToast = toast.loading('Saving draft....')
+
+    e.target.classList.add('disable')
+
+    if(textEditor.isReady){
+      textEditor.save().then( (content: any) => {
+
+        let blogObj = {title, banner, des, content, tags, draft: true}
+    
+        axios.post(process.env.VITE_SERVER_DOMAIN + 'create-blog', blogObj, {
+          headers:{
+            'Authorization': `Bearer ${access_token}`
+          }
+        })
+        .then(() => {
+          e.target.classList.remove('disable')
+    
+          toast.dismiss(loadingToast)
+          toast.success("Saved Draft 🚀🚀")
+    
+          setTimeout(() => {
+            redirect('/')
+          }, 500)
+        })
+        .catch(({response}) => {
+          e.target.classList.remove('disable')
+          toast.dismiss(loadingToast)
+          
+          return toast.error(response.data.error)
+        })
+         
+      })
+    }
+
+  }
   
 
   useEffect(() => {
@@ -101,7 +150,9 @@ export default function BlogEditor() {
       });
       
       editorRef.current = editor
-      setTextEditor(editor)
+      if(!textEditor.isReady){
+        setTextEditor(editor)
+      }
     }
     
     // Cleanup function to destroy the editor when the component unmounts
@@ -121,7 +172,7 @@ export default function BlogEditor() {
         </h2>
         <div className='flex gap-4 ml-auto'>
           <Button onClick={handlePublicEvent}>Publish</Button>
-          <Button variant="ghost">Save Draft</Button>
+          <Button onClick={handelSaveDraft} variant="ghost">Save Draft</Button>
         </div>
       </nav>
       <Toaster/>

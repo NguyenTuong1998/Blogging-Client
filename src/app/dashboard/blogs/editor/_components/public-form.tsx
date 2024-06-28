@@ -50,7 +50,9 @@ export default function PublicForm() {
 
   const publicBlogs = (e: any) => {
 
-    // if(e.target.className.includes('disable')) return;
+    if(e.target.className.includes('disable')){
+      return;
+    }
 
     if (!title.length) return toast.error("Write blog title before publishing")
 

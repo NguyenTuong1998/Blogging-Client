@@ -2,7 +2,7 @@
 import { useContext, useState } from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
-import logo from '../../public/imgs/logo.png'
+import logo from '../../public/imgs/logo.svg'
 import { UserContext } from '@/app/layout';
 import UserNavigation from './Utils/UserNavigation';
 import { NavigationMenuDemo } from './NavigationMenuDemo';
@@ -28,9 +28,9 @@ export default function Navbar() {
     return (
         <>
             <nav className='navbar'>
-                <Link href='/' className='flex-none w-10'>
-                    <Image  rel="stylesheet preload prefetch" src={logo} className='w-full' alt="logo-dashboard" priority height="100"
-                        width="100" />
+                <Link href='/' className='flex-none w-20'>
+                    <Image  rel="stylesheet preload prefetch" src={logo} className='w-full' alt="logo-dashboard" priority height="500"
+                        width="500" />
                 </Link>
                 <div className={`
                         absolute bg-white w-full left-0  
@@ -39,7 +39,7 @@ export default function Navbar() {
                     <input
                         type="text"
                         placeholder='Search'
-                        className='w-full md:w-auto bg-grey p-2  pl-6 pr-[12%] md:pr-6 rounded-full placeholder:text-dark-grey md:pl-12'
+                        className='w-full md:w-auto bg-grey p-1.5  pl-6 pr-[12%] md:pr-6 rounded-full placeholder:text-dark-grey md:pl-12'
                     />
                     <i className='fi fi-rr-search absolute right-[10%] md:pointer-events-none md:left-5 top-1/2 -translate-y-1/2 text-xl  text-dark-grey'></i>
                 </div>
@@ -91,11 +91,11 @@ export default function Navbar() {
                                      Sign In
                                 </Button>
                                 </Link>
-                                <Link href='/signup'>
+                                {/* <Link href='/signup'>
                                 <Button variant="secondary" className='text-base rounded-xl px-6'>
                                      Sign Up
                                 </Button>
-                                </Link>
+                                </Link> */}
                             </>
                     }
 
