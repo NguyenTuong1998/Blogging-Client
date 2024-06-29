@@ -10,7 +10,7 @@ import { EditorContext } from '../page'
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { Tools } from '@/components/Tools'
 import axios from 'axios'
-import { UserContext } from '@/app/layout'
+import { UserContext } from '@/app/app-provider'
 import { useRouter } from 'next/navigation'
 
 export default function BlogEditor() {

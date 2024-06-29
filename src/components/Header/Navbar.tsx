@@ -2,16 +2,16 @@
 import { useContext, useState } from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
-import logo from '../../public/imgs/logo.svg'
-import { UserContext } from '@/app/layout';
-import UserNavigation from './Utils/UserNavigation';
-import { NavigationMenuDemo } from './NavigationMenuDemo';
+import logo from '../../../public/imgs/logo.svg'
+import { UserContext } from '@/app/app-provider';
+import UserNavigation from '../Utils/UserNavigation';
+import { NavigationMenuDemo } from '../NavigationMenuDemo';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 //shadcn ui
 import { Button } from "@/components/ui/button"
 
-export default function Navbar() {
+export default function NavbarEvent() {
     const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
     const [userNavPanel, setUserNavPanel] = useState(false)
     const { userAuth } = useContext(UserContext) as any;

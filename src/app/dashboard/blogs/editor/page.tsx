@@ -1,6 +1,6 @@
 'use client'
 import { useContext, useEffect, useState, createContext } from 'react'
-import { UserContext } from '@/app/layout'
+import { UserContext } from '@/app/app-provider'
 import { redirect } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
