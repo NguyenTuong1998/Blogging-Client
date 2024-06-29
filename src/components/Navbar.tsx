@@ -11,10 +11,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 //shadcn ui
 import { Button } from "@/components/ui/button"
 
-
-
-
-
 export default function Navbar() {
     const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
     const [userNavPanel, setUserNavPanel] = useState(false)
@@ -28,7 +24,7 @@ export default function Navbar() {
     return (
         <>
             <nav className='navbar'>
-                <Link href='/' className='flex-none w-20'>
+                <Link href='/' className='flex-none w-16'>
                     <Image  rel="stylesheet preload prefetch" src={logo} className='w-full' alt="logo-dashboard" priority height="500"
                         width="500" />
                 </Link>
