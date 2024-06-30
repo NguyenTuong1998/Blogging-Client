@@ -6,7 +6,7 @@ import { EditorContext } from '@/app/dashboard/blogs/editor/page'
 import Image from 'next/image'
 import { Tags } from '@/components/Tags'
 import axios from 'axios'
-import { UserContext } from '@/app/layout'
+import { UserContext } from '@/app/app-provider'
 import { useRouter } from 'next/navigation'
 
 let characterLimit = 200

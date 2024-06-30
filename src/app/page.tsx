@@ -1,6 +1,7 @@
 import Navbar from "@/components/Header/page";
 import AnimationWraper from "@/common/AnimationWraper";
 import InpageNavigation from "@/components/InpageNavigation";
+import LateStComponent from "@/app/(blogs)/latest/page";
 
 export default function Home() {
   return (
@@ -10,11 +11,12 @@ export default function Home() {
         <div className="w-full">
 
            <InpageNavigation routes={["home", "trending blogs"]} defaultHidden ={["trending blogs"]}>
-              <h1>fdfdfd</h1>
+              <>
+                  <LateStComponent/>
+              </>
               <h1>trending blogs here</h1>
            </InpageNavigation>
 
-           
         </div>
       </section>
     </AnimationWraper>
