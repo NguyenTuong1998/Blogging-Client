@@ -1,4 +1,4 @@
-import React from 'react'
+'use client'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface AnimationProps {

@@ -19,16 +19,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  // const [userAuth, setUserAuth] = useState<Object | undefined>()
-
-  // useEffect(() => {
-  //   let userInSeccion = lookInSession('user');
-
-  //   userInSeccion ? setUserAuth(JSON.parse(userInSeccion)) : setUserAuth({ access_token : null})
-    
-  // }, [])
-
+  
   return (
     <html lang="en" suppressHydrationWarning>
       {/* <head>
