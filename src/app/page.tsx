@@ -2,6 +2,7 @@ import Navbar from "@/components/Header/page";
 import AnimationWraper from "@/common/AnimationWraper";
 import InpageNavigation from "@/components/InpageNavigation";
 import LateStComponent from "@/app/(blogs)/latest/page";
+import TrendingComponent from "@/app/(blogs)/trending/page";
 
 export default function Home() {
   return (
@@ -14,7 +15,9 @@ export default function Home() {
               <>
                   <LateStComponent/>
               </>
-              <h1>trending blogs here</h1>
+              <>
+                <TrendingComponent/>
+              </>
            </InpageNavigation>
 
         </div>
