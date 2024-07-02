@@ -1,13 +1,21 @@
 'use client'
 import { useState, useRef, useEffect } from "react"
+import { useContext } from "react"
+import { BlogContext } from "@/app/AppClient"
 
 const defaultActiveIndex = 0
 
-const InpageNavigation = ({ routes, defaultHidden, children }: { routes: any, defaultHidden : any, children: any }) => {
+export let activeTabLineRef:any; 
+export let activeTabRef: any;
+const InpageNavigation = ({ defaultHidden, children }: { defaultHidden : any, children: any }) => {
+    
+    const {pageState} = useContext(BlogContext) as any;
 
-    let activeTabLineRef = useRef<HTMLHRElement>(null)
+    let routes=[pageState, "trending blogs"]
+    
+    activeTabLineRef = useRef<HTMLHRElement>(null)
 
-    let activeTabRef = useRef(null)
+    activeTabRef = useRef(null)
 
     let [inPageNavIndex, setInPageNavIndex] = useState(defaultActiveIndex)
 
