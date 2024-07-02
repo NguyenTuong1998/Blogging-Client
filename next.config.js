@@ -5,6 +5,10 @@ const nextConfig = {
           {
             hostname: 'res.cloudinary.com',
           },
+          {
+            protocol: 'https',
+            hostname: 'lh3.googleusercontent.com',
+          },
         ],
         formats: ['image/avif', 'image/webp'],
       },

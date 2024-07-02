@@ -19,14 +19,3 @@ export const uploadImage = async (file: any) => {
 
     return url
 }
-
-export const getLatestBlogs = async () => {
-    let listBlogs: any = [];
-    await axios.get(process.env.VITE_SERVER_DOMAIN + 'latest-blogs')
-    .then(result => {
-        console.log(result);
-    })
-    .catch(err => console.error(err))
-
-    return listBlogs;
-}

@@ -1,9 +1,9 @@
-POST http://localhost:3000/signup 
+GET http://localhost:3000/latest-blogs 
 Content-Type: application/json
 
-{
-    "fullname": "nguyentuong",
-    "email": "nguyentuong@somthing.com",
-    "password" : "Nhattuong123"
+# {
+#     "fullname": "nguyentuong",
+#     "email": "nguyentuong@somthing.com",
+#     "password" : "Nhattuong123"
     
-}
+# }

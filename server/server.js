@@ -192,8 +192,8 @@ server.get('/latest-blogs', (req, res) => {
     let maxLimit = 5
     Blog.find({draft: false})
     .populate("author", "personal_info.profile_img personal_info.username personal_info.fullname -_id")
-    .sort({'publishAt': -1})
-    .select("blog_id title des banner activity tags publishAt -_id")
+    .sort({'publishedAt': -1})
+    .select("blog_id title des banner activity tags publishedAt -_id")
     .limit(maxLimit)
     .then(blogs => res.status(200).json({blogs}))
     .catch(err => res.status(500).json({error: err.message}))
