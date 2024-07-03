@@ -2,11 +2,9 @@
 import { createContext, useState, useEffect } from "react"
 import axios from "axios"
 import { activeTabRef } from "@/components/InpageNavigation"
-export const BlogContext = createContext<{}>({})
+import { FilterPaginationData } from "@/common/FilterPaginationData"
 
-interface PageState {
-    tag: string;
-  }
+export const BlogContext = createContext<{}>({})
 
 export default function AppClient({ children }: { children: React.ReactNode }) {
   
@@ -16,13 +14,19 @@ export default function AppClient({ children }: { children: React.ReactNode }) {
 
     const [pageState, setPageState] = useState('home')
 
-    let filterTag: PageState = {
-        tag: pageState
-    };
-    const getLatestBlogs = async () => {
-        await axios.get(process.env.VITE_SERVER_DOMAIN + 'latest-blogs')
-        .then(({data : {blogs}}) => {
-            setBlogs(blogs)
+    const getLatestBlogs = async ({page = 1}) => {
+        await axios.post(process.env.VITE_SERVER_DOMAIN + 'latest-blogs', {page})
+        .then(async({data}) => {
+
+            // @ts-ignore
+            let formateData = await FilterPaginationData({
+                state: blogs,
+                data: data.blogs,
+                page,
+                countRoute: "all-latest-blogs-count"
+            })
+            
+            setBlogs(formateData)
         })
         .catch(err => console.error(err))
     }
@@ -35,11 +39,19 @@ export default function AppClient({ children }: { children: React.ReactNode }) {
         .catch(err => console.error(err))
     }
 
-    const getBlogByCategory = async(tag: PageState) => {
-        let params = {tag: pageState}
-        await axios.post(process.env.VITE_SERVER_DOMAIN + 'search-blogs', {tag: params.tag})
-        .then(({data : {blogs}}) => {
-            setBlogs(blogs)
+    const getBlogByCategory = async({page = 1}) => {
+        await axios.post(process.env.VITE_SERVER_DOMAIN + 'search-blogs', {tag: pageState, page})
+        .then(async({data}) => {
+
+            let formateData = await FilterPaginationData({
+                state: blogs,
+                data: data.blogs,
+                page,
+                countRoute: "search-blogs-count",
+                data_to_send: {tag: pageState}
+            })
+
+            setBlogs(formateData)
         })
         .catch(err => console.error(err))
     }
@@ -49,9 +61,9 @@ export default function AppClient({ children }: { children: React.ReactNode }) {
         activeTabRef.current.click();
 
         if(pageState == 'home'){
-            getLatestBlogs()
+            getLatestBlogs({page: 1})
         }else{
-            getBlogByCategory()
+            getBlogByCategory({page: 1})
         }
 
         if(!trendingblogs){
@@ -61,7 +73,7 @@ export default function AppClient({ children }: { children: React.ReactNode }) {
     },[pageState])
 
     return (
-    <BlogContext.Provider value={{blogs, setBlogs, trendingblogs, pageState, setPageState}}>
+    <BlogContext.Provider value={{blogs, setBlogs, trendingblogs, pageState, setPageState, getLatestBlogs, getBlogByCategory}}>
         {children}
     </BlogContext.Provider>
   )

@@ -23,7 +23,8 @@ export default function BlogPostCard({ content, author }: { content: any, author
         <p className="my-3 text-xl font-gelasio leading-7 max-sm:hidden md:max-[1100px]:hidden line-clamp-2">{des}</p>
 
         <div className="flex gap-4 mt-7">
-          <span className="tag">{tags[0]}</span>
+          {tags.length && tags.map((tag: any) => <span className="rounded-full bg-grey px-4 capitalize py-1">{tag}</span> )}
+          
           <span className="ml-3 flex items-center gap-2 text-dark-grey">
             <i className="fi fi-rr-heart text-xl"></i>
             {total_likes}
