@@ -7,11 +7,13 @@ import { UserContext } from '@/app/app-provider';
 import UserNavigation from '../Utils/UserNavigation';
 import { NavigationMenuDemo } from '../NavigationMenuDemo';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useRouter } from 'next/navigation';
 
 //shadcn ui
 import { Button } from "@/components/ui/button"
 
 export default function NavbarEvent() {
+    const router = useRouter()
     const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
     const [userNavPanel, setUserNavPanel] = useState(false)
     const { userAuth } = useContext(UserContext) as any;
@@ -20,6 +22,17 @@ export default function NavbarEvent() {
         setTimeout(() => {
             setUserNavPanel(false)
         }, 200);
+    }
+
+    const handleSearch = (e :any) => {
+        let query = e.target.value
+
+        if(e.keyCode == 13 && query.length){
+
+            router.push(`/search/${query}`)
+            
+        }
+
     }
     return (
         <>
@@ -36,6 +49,7 @@ export default function NavbarEvent() {
                         type="text"
                         placeholder='Search'
                         className='w-full md:w-auto bg-grey p-1.5  pl-6 pr-[12%] md:pr-6 rounded-full placeholder:text-dark-grey md:pl-12'
+                        onKeyDown={handleSearch}
                     />
                     <i className='fi fi-rr-search absolute right-[10%] md:pointer-events-none md:left-5 top-1/2 -translate-y-1/2 text-xl  text-dark-grey'></i>
                 </div>

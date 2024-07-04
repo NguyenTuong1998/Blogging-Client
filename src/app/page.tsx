@@ -15,7 +15,7 @@ export default function Home() {
         <section className="h-cover flex justify-center gap-10">
           <div className="w-full">
 
-            <InpageNavigation defaultHidden ={["trending blogs"]}>
+            <InpageNavigation routes= {[]} defaultHidden ={["trending blogs"]}>
                 <>
                     <LateStComponent/>
                 </>
@@ -25,7 +25,7 @@ export default function Home() {
             </InpageNavigation>
 
           </div>
-          <div className="min-w-[30%] lg:min-w-[300px] max-w-min border-1 border-grey pl-8 pt-3 max-md:hidden">
+          <div className="min-w-[40%] lg:min-w-[400px] max-w-min border-1 border-grey pl-8 pt-3 max-md:hidden">
 
             <div className="flex flex-col gap-10">
 

@@ -13,20 +13,6 @@ import { BlogContext } from "@/app/AppClient"
 export default function TrendingComponent() {
 
   const {trendingblogs} = useContext(BlogContext) as any;
-//   const [trendingblogs, setTrendingBlogs ] = useState(null) as any
-
-
-// const getTrendingBlogs = async () => {
-//   await axios.get(process.env.VITE_SERVER_DOMAIN + 'trending-blogs')
-//   .then(({data : {blogs}}) => {
-//     setTrendingBlogs(blogs)
-//   })
-//   .catch(err => console.error(err))
-// }
-
-//   useEffect(() => {
-//     getTrendingBlogs()
-// },[])
 
   return (
     <>

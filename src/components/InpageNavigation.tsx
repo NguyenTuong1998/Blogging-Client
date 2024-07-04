@@ -7,11 +7,11 @@ const defaultActiveIndex = 0
 
 export let activeTabLineRef:any; 
 export let activeTabRef: any;
-const InpageNavigation = ({ defaultHidden, children }: { defaultHidden : any, children: any }) => {
+const InpageNavigation = ({routes, defaultHidden, children }: {routes: any, defaultHidden : any, children: any }) => {
     
     const {pageState} = useContext(BlogContext) as any;
 
-    let routes=[pageState, "trending blogs"]
+    let route = routes.length > 0 ? routes :  [pageState, "trending blogs"]
     
     activeTabLineRef = useRef<HTMLHRElement>(null)
 
@@ -40,15 +40,15 @@ const InpageNavigation = ({ defaultHidden, children }: { defaultHidden : any, ch
     return (
         <>
             <div className="relative mb-8 bg-white border-b border-grey flex flex-nowrap overflow-x-auto">
-                {routes.map((route: any, i: number) => {
+                {route.map((routes: any, i: number) => {
                     return (
                         <button
                             ref={i == defaultActiveIndex ? activeTabRef : null}
                             key={i}
-                            className={`p-4 px-5 capitalize ${inPageNavIndex == i ? 'text-black' : 'text-dark-grey'} ${defaultHidden.includes(route) && "md:hidden"}`}
+                            className={`p-4 px-5 capitalize ${inPageNavIndex == i ? 'text-black' : 'text-dark-grey'} ${defaultHidden.includes(routes) && "md:hidden"}`}
                             onClick={(e) => { changePageState(e.target, i) }}
                         >
-                            {route}
+                            {routes}
                         </button>
                     );
                 })}

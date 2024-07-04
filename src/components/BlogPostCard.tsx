@@ -13,7 +13,7 @@ export default function BlogPostCard({ content, author }: { content: any, author
       <div className="w-full">
 
         <div className="flex gap-2 items-center mb-7">
-          <Image src={profile_img} className="w-6 h-6 rounded-full" width={300} height={300} alt="image-blog"/>
+          <Image src={profile_img} className="w-6 h-6 rounded-full" width={300} height={300} alt="image-blog" priority/>
           <p className="line-clamp-1">{fullname} @{username}</p>
           <p className="min-w-fit">{getDay(publishedAt)}</p>
         </div>
@@ -23,7 +23,7 @@ export default function BlogPostCard({ content, author }: { content: any, author
         <p className="my-3 text-xl font-gelasio leading-7 max-sm:hidden md:max-[1100px]:hidden line-clamp-2">{des}</p>
 
         <div className="flex gap-4 mt-7">
-          {tags.length && tags.map((tag: any) => <span className="rounded-full bg-grey px-4 capitalize py-1">{tag}</span> )}
+          {tags.length && tags.map((tag: any, index: any) => <span className="rounded-full bg-grey px-4 capitalize py-1" key={index}>{tag}</span> )}
           
           <span className="ml-3 flex items-center gap-2 text-dark-grey">
             <i className="fi fi-rr-heart text-xl"></i>
@@ -33,7 +33,7 @@ export default function BlogPostCard({ content, author }: { content: any, author
 
       </div>
       <div className="h-28 aspect-square bg-grey">
-        <Image src={banner} alt="banner-blog" height={300} width={300} className="w-full h-full aspect-square object-cover"></Image>
+        <Image src={banner} alt="banner-blog" height={300} width={300} className="w-full h-full aspect-square object-cover" priority></Image>
       </div>
     </Link>
   )

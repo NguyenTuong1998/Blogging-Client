@@ -220,10 +220,15 @@ server.get('/trending-blogs', (req, res) => {
 })
 
 server.post('/search-blogs', (req, res) => {
-    let {tag, page} = req.body
+    let {tag,query, page} = req.body
 
-    let findQuery = {tags: tag, draft: false}
+    let findQuery 
 
+    if(tag){
+        findQuery = {tags: tag, draft: false}
+    }else{
+        findQuery = {title: new RegExp(query, 'i'), draft: false}
+    }
     let maxLimit = 2
 
     Blog.find(findQuery)
@@ -237,9 +242,15 @@ server.post('/search-blogs', (req, res) => {
 })
 
 server.post('/search-blogs-count', (req, res) => {
-    let {tag} = req.body;
+    let {tag, query} = req.body;
 
-    let findQuery = {tags: tag, draft: false}
+    let findQuery
+
+    if(tag){
+        findQuery = {tags: tag, draft: false}
+    }else{
+        findQuery = {title: new RegExp(query, 'i'), draft: false}
+    }
 
     Blog.countDocuments(findQuery)
     .then(count => res.status(200).json({totalDocs: count}))
