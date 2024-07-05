@@ -58,8 +58,6 @@ export default function page({ params }: { params: { slug: string } }) {
 
 
   const UseCardWrapper = () => {
-    console.log(users);
-    
     return (
       <>
         {

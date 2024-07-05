@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import getDay from "@/common/date"
+import { getDay } from "@/common/date"
 
 export default function MiniBlogPostCard({blog, index} : {blog:any, index: number}) {
 

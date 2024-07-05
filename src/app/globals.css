@@ -169,7 +169,11 @@
   }
 
   .blog-title{
-      @apply text-2xl font-medium leading-7 line-clamp-3 sm:line-clamp-2;
+      @apply text-2xl font-satoshi font-bold leading-7 line-clamp-3 sm:line-clamp-2 hover:underline;
+  }
+
+  .image-banner{
+    @apply rounded-xl
   }
 
   .blog-index{

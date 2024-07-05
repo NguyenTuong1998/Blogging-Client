@@ -220,14 +220,16 @@ server.get('/trending-blogs', (req, res) => {
 })
 
 server.post('/search-blogs', (req, res) => {
-    let {tag,query, page} = req.body
+    let {tag,query, author, page} = req.body
 
     let findQuery 
 
     if(tag){
         findQuery = {tags: tag, draft: false}
-    }else{
+    }else if(query){
         findQuery = {title: new RegExp(query, 'i'), draft: false}
+    }else if(author){
+        findQuery = {author, draft: false,}
     }
     let maxLimit = 2
 
@@ -242,14 +244,16 @@ server.post('/search-blogs', (req, res) => {
 })
 
 server.post('/search-blogs-count', (req, res) => {
-    let {tag, query} = req.body;
+    let {tag, author, query} = req.body;
 
     let findQuery
 
     if(tag){
         findQuery = {tags: tag, draft: false}
-    }else{
+    }else if(query){
         findQuery = {title: new RegExp(query, 'i'), draft: false}
+    }else if(author){
+        findQuery = {author, draft: false,}
     }
 
     Blog.countDocuments(findQuery)
@@ -266,6 +270,16 @@ server.post('/search-users', (req, res) => {
     .then(users => res.status(200).json({users}))
     .catch(err => res.status(500).json({error: err.message}))
     
+})
+
+server.post('/get-profile', (req, res) => {
+    let {username} = req.body
+
+    User.findOne({"personal_info.username": username})
+    .select("-personal_info.password -google_auth -updatedAt -blogs")
+    .then(user => res.status(200).json(user))
+    .catch(err => res.status(500).json({error: err.message}))
+
 })
 
 server.post('/create-blog', verifyJWT, (req, res) => {

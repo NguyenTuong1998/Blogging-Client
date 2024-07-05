@@ -15,6 +15,7 @@ const config = {
       'base': '14px',
       'xl': '16px',
       '2xl': '20px',
+      'em': '24px',
       '3xl': '28px',
       '4xl': '38px',
       '5xl': '50px',
@@ -92,7 +93,9 @@ const config = {
       },
       fontFamily: {
         inter: ["'Inter'", "sans-serif"],
-        gelasio: ["'Gelasio'", "serif"]
+        gelasio: ["'Gelasio'", "serif"],
+        satoshi: ["Satoshi", "sans-serif"],
+        lora: ["Lora", "sans-serif"]
       },
     },
   },

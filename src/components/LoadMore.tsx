@@ -1,7 +1,7 @@
 'use client'
 const LoadMoreDataBtn = ({state, fetchDataFunc} : {state: any, fetchDataFunc: any}) => {
 
-    if(state !== null && state.totalDocs > state.results.length){
+    if(state !== null && state?.totalDocs > state?.results.length){
         return (
             <button 
                 onClick={() => fetchDataFunc({page: state.page + 1})}
