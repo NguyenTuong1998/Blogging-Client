@@ -8,7 +8,7 @@ export default function BlogPostCard({ content, author }: { content: any, author
 
   let { fullname, profile_img, username } = author
   return (
-    <Link href='/' className="flex gap-8 items-center border-b border-grey pb-5 mb-4">
+    <Link href={`${id}`} className="flex gap-8 items-center border-b border-grey pb-5 mb-4">
 
       <div className="w-full">
 
@@ -20,7 +20,7 @@ export default function BlogPostCard({ content, author }: { content: any, author
 
         <h1 className="blog-title">{title}</h1>
 
-        <p className="my-3 text-xl font-lora leading-7 max-sm:hidden md:max-[1100px]:hidden line-clamp-2">{des}</p>
+        <p className="my-3 text-xl font-lora leading-8 max-sm:hidden md:max-[1100px]:hidden line-clamp-2">{des}</p>
 
         <div className="flex gap-4 mt-7">
           {/* {tags.length && tags.map((tag: any, index: any) => <span className="rounded-full bg-grey px-4 capitalize py-1" key={index}>{tag}</span> )} */}

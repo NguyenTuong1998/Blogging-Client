@@ -1,8 +1,8 @@
 import Navbar from "@/components/Header/page";
 import AnimationWraper from "@/common/AnimationWraper";
 import InpageNavigation from "@/components/InpageNavigation";
-import LateStComponent from "@/app/blogs/latest/page";
-import TrendingComponent from "@/app/blogs/trending/page";
+import LateStComponent from "@/app/(blogs)/latest/page";
+import TrendingComponent from "@/app/(blogs)/trending/page";
 import StoriesTagAll from "@/components/StoriesTagAll";
 import AppClient from "@/app/AppClient";
 

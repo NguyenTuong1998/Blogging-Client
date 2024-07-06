@@ -11,9 +11,6 @@ export default function AppProvider({ children }: { children: React.ReactNode })
     useEffect(() => {
         let userInSeccion = lookInSession('user');
 
-        console.log(userInSeccion);
-        
-
         userInSeccion ? setUserAuth(JSON.parse(userInSeccion)) : setUserAuth({ access_token: null })
 
     }, [])
