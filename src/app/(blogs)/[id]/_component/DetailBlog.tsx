@@ -7,22 +7,22 @@ import Link from 'next/link'
 import { getDay } from '@/common/date'
 import BlogInteracsion from '@/components/BlogInteracsion'
 import BlogPostCard from '@/components/BlogPostCard'
+import BlogContent from '@/app/(blogs)/[id]/_component/BlogContent'
 
-
+type ContentBlog = {
+  type: string,
+  id: string,
+  data: {}
+}
 export const BlogContext = createContext<{}>({})
 
 export default function DetailBlog({blogStrure, similrBlog}: {blogStrure: any, similrBlog: any}) {
 
   const [blog, setBlog] = useState(blogStrure)
   
-  const [loading, setLoading] = useState(true)
-
-  const [smilarBlogs, setSmilarBlogs] = useState(similrBlog) as any
 
   let {title, content, banner, author: {personal_info: {fullname, username: author_username, profile_img}}, publishedAt} = blog
-  
-  
-    
+
   return (
     <>
 
@@ -63,21 +63,35 @@ export default function DetailBlog({blogStrure, similrBlog}: {blogStrure: any, s
 
             <BlogInteracsion/>
 
-            {smilarBlogs !== null && similrBlog.length ?  
+            {/* //content blog detail*/}
+
+            <div className='my-12 font-lora blog-page-content'>
+              {content[0].blocks && content[0].blocks.map((block: ContentBlog, i: number) => {
+                return <div key={i} className='my-4 md:my-8'>
+                  <BlogContent block = {block}/>
+                </div>
+              })}
+
+            </div>
+
+            {/* smilarBlogs */}
+            {/* {similrBlog !== null && similrBlog.length ?  
               <>
                 <h1 className='text-2xl mt-14 mb-10 font-medium'>Similar Blog</h1>
 
                 {
-                  smilarBlogs.map((blog: any, i:number) => {
-                    let {author: {personal_info}} = blog;
-                    return <AnimationWraper key={i} transition={{duration: 1, delay: i*0.08}}>
-                      <BlogPostCard content={blog} author={personal_info}/>
-                    </AnimationWraper>
+                  similrBlog.map((blog: any, i:number) => {
+                    let {author: {personal_info}} = blog
+                    return (
+                      <AnimationWraper key={i} transition={{duration: 1, delay: i*0.08}}>
+                        <BlogPostCard content={blog} author={personal_info}/>
+                      </AnimationWraper>
+                    )
                   })
                 }
               </>
               : ""
-            }
+            } */}
 
           </div>
         </AnimationWraper>
