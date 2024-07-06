@@ -172,6 +172,14 @@
       @apply text-2xl font-satoshi font-bold leading-7 line-clamp-3 sm:line-clamp-2 hover:underline;
   }
 
+  .img{
+    @apply border-2 border-solid border-[rgba(26,27,28,0.07)] rounded-[10px] shadow-[0_8px_8px_3px_rgba(0,0,0,0.2)]
+  }
+
+  .img-content{
+    @apply border-2 border-solid rounded-[10px] border-[rgba(26,27,28,0.07)]
+  }
+
   .image-banner{
     @apply rounded-xl
   }

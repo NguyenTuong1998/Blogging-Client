@@ -18,7 +18,7 @@ export default function BlogContent({block} : {block: any}) {
   if(type == 'image'){
     return(
       <div>
-        <Image src={data.file.url} priority width={300} height={300} alt={data.caption}/>
+        <Image className="img-content" src={data.file.url} priority width={300} height={300} alt={data.caption}/>
         {data.caption.length ? <p className="w-full text-center my-3 md:mb-12 text-base text-dark-grey">{data.caption}</p> : ''}
       </div>
     )

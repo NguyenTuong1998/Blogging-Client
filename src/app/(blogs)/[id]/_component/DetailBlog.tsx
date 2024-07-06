@@ -21,7 +21,7 @@ export default function DetailBlog({blogStrure, similrBlog}: {blogStrure: any, s
   const [blog, setBlog] = useState(blogStrure)
   
 
-  let {title, content, banner, author: {personal_info: {fullname, username: author_username, profile_img}}, publishedAt} = blog
+  let {title,des, content, banner, author: {personal_info: {fullname, username: author_username, profile_img}}, publishedAt} = blog
 
   return (
     <>
@@ -34,32 +34,39 @@ export default function DetailBlog({blogStrure, similrBlog}: {blogStrure: any, s
 
           <div className='max-w-[900px] center py-10 max-lg:px-[5vw]'>
 
-            <Image src={banner} priority alt={title} width={300} height={300} className='aspect-video'/>
+          <div className='mt-12'>
 
-            <div className='mt-12'>
+              <div className="all-posts-crumb"><Link className='text-black font-lora hover:underline text-xl' href="/">← All posts</Link></div>
               
-              <h2 className='blog-title'>{title}</h2>
+              <h1 className='w-11/12 font-satoshi text-[48px] font-bold leading-[1.2em] mt-[30px] mb-[10px]'>{title}</h1>
+
+              <p className='leading-[32px] text-[#1a1b1c] text-xl font-lora w-4/5 mt-[10px]'>{des}</p>
 
               <div className='flex max-sm:flex-col justify-between my-8'>
-                <div className='flex gap-5 items-start'>
+                <div className='flex items-center'>
+                    <Link href={`/user/${author_username}`} className='flex items-center mr-[10px]'>
 
-                  <Image src={profile_img} alt='about-author' priority width={300} height={300} className='w-12 h-12 rounded-full'></Image>
+                      <Image src={profile_img} alt='about-author' priority width={300} height={300} className='img w-12 h-12 rounded-full mr-[10px]'></Image>
 
-                  <p className='capitalize'>
-                      {fullname}
+                      <div className="mr-[4px] font-lora text-[#131112] text-xl leading-[1.5em]">Post by</div>
+                      
+                      <div className="underline text-[#131112] text-xl leading-[1.5em] font-lora ">{author_username}</div>
 
-                      <br />@
+                    </Link>
 
-                      <Link className='underline' href={`/user/${author_username}`}>{author_username}</Link>
-                  </p>
-                  
+                    <div className="mr-[10px] text-xl leading-[1.5em] font-lora text-dark-grey ">|</div>
+
+                    <div className="my-[10px] text-xl leading-[1.5em] font-lora text-dark-grey ">{getDay(publishedAt)}</div>
+
                 </div>
-
-                <p className='text-dark-grey opacity-75 max-sm:mt-6 max-sm:ml-12 max-sm:pl-5'>Published on {getDay(publishedAt)}</p>
 
               </div>
 
             </div>
+
+            <Image src={banner} priority alt={title} width={300} height={300} className='img my-[40px] rounded-xl aspect-video'/>
+
+            
 
             <BlogInteracsion/>
 
@@ -75,7 +82,7 @@ export default function DetailBlog({blogStrure, similrBlog}: {blogStrure: any, s
             </div>
 
             {/* smilarBlogs */}
-            {/* {similrBlog !== null && similrBlog.length ?  
+            {similrBlog !== null && similrBlog.length ?  
               <>
                 <h1 className='text-2xl mt-14 mb-10 font-medium'>Similar Blog</h1>
 
@@ -91,7 +98,7 @@ export default function DetailBlog({blogStrure, similrBlog}: {blogStrure: any, s
                 }
               </>
               : ""
-            } */}
+            }
 
           </div>
         </AnimationWraper>
