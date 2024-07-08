@@ -6,7 +6,7 @@ export default function MiniBlogPostCard({blog, index} : {blog:any, index: numbe
 
     let {title, blog_id: id, author: {personal_info: { fullname, username, profile_img}}, publishedAt} = blog
   return (
-    <Link href='/' className="flex gap-5 mb-4">
+    <Link href={`/${id}`} className="flex gap-5 mb-4">
         <h1 className="blog-index">{index < 10 ? "0" + (++index) : index}</h1>
         <div >
             <div className="flex gap-2 items-center mb-7">

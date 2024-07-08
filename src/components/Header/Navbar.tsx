@@ -60,6 +60,7 @@ export default function NavbarEvent() {
                         <Button className='text-base' variant="ghost"> <i className='fi fi-rr-file-edit px-1'></i> Write</Button>
                     </Link>
                     <button
+                        aria-label='show-input-search-blog'
                         onClick={() => setSearchBoxVisibility(!searchBoxVisibility)}
                         className='flex  w-12 h-12 rounded-full items-center justify-center'>
                         <i className='fi fi-rr-search text-xl'></i>

@@ -1,12 +1,10 @@
-'use client'
-import {useState, createContext} from 'react'
 import Navbar from '@/components/Header/page'
 import AnimationWraper from '@/common/AnimationWraper'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getDay } from '@/common/date'
 import BlogInteracsion from '@/components/BlogInteracsion'
-import BlogPostCard from '@/components/BlogPostCard'
+import SimilarPostCard from '@/components/SimilarPostCard'
 import BlogContent from '@/app/(blogs)/[id]/_component/BlogContent'
 
 type ContentBlog = {
@@ -14,13 +12,11 @@ type ContentBlog = {
   id: string,
   data: {}
 }
-export const BlogContext = createContext<{}>({})
 
 export default function DetailBlog({blogStrure, similrBlog}: {blogStrure: any, similrBlog: any}) {
 
-  const [blog, setBlog] = useState(blogStrure)
+   let  blog = blogStrure
   
-
   let {title,des, content, banner, author: {personal_info: {fullname, username: author_username, profile_img}}, publishedAt} = blog
 
   return (
@@ -28,11 +24,10 @@ export default function DetailBlog({blogStrure, similrBlog}: {blogStrure: any, s
 
       <Navbar/>
 
-      <BlogContext.Provider value={{blog, setBlog }}>
 
         <AnimationWraper>
 
-          <div className='max-w-[900px] center py-10 max-lg:px-[5vw]'>
+          <div className='max-w-[1200px] px-[25px] center py-10 max-lg:px-[5vw]'>
 
           <div className='mt-12'>
 
@@ -64,46 +59,57 @@ export default function DetailBlog({blogStrure, similrBlog}: {blogStrure: any, s
 
             </div>
 
-            <Image src={banner} priority alt={title} width={300} height={300} className='img my-[40px] rounded-xl aspect-video'/>
+            <Image 
+              src={banner} 
+              alt={title} 
+              width={100} 
+              quality={60}  
+              height={100} 
+              sizes='75vm' 
+              style={{width: '100%', height: '100%'}} 
+              priority
+              className='img my-[40px] rounded-xl aspect-video'
+            />
 
-            
-
-            <BlogInteracsion/>
+          
+            <BlogInteracsion blog={blog}/>
 
             {/* //content blog detail*/}
 
-            <div className='my-12 font-lora blog-page-content'>
-              {content[0].blocks && content[0].blocks.map((block: ContentBlog, i: number) => {
-                return <div key={i} className='my-4 md:my-8'>
-                  <BlogContent block = {block}/>
+            <div className='grid lg:grid-cols-[2fr_1fr] lg:grid-rows-auto lg:gap-x-[60px] lg:gap-y-[16px] text-left mb-[50px]'>
+
+              <div className='my-12 font-lora blog-page-content'>
+                {content[0].blocks && content[0].blocks.map((block: ContentBlog, i: number) => {
+                  return <div key={i} className='my-4 md:my-8'>
+                    <BlogContent block = {block}/>
+                  </div>
+                })}
+
+              </div>
+
+              {/* smilarBlogs */}
+              {similrBlog !== null && similrBlog.length ?  
+                <div>
+                  <h2 className='text-2xl mt-14 mb-10 font-medium'>Related articles</h2>
+
+                  {
+                    similrBlog.map((blog: any, i:number) => {
+                      let {author: {personal_info}} = blog
+                      return (
+                        <AnimationWraper key={i} transition={{duration: 1, delay: i*0.08}}>
+                          <SimilarPostCard content={blog} author={personal_info}/>
+                        </AnimationWraper>
+                      )
+                    })
+                  }
                 </div>
-              })}
-
+                : ""
+              }
             </div>
-
-            {/* smilarBlogs */}
-            {similrBlog !== null && similrBlog.length ?  
-              <>
-                <h1 className='text-2xl mt-14 mb-10 font-medium'>Similar Blog</h1>
-
-                {
-                  similrBlog.map((blog: any, i:number) => {
-                    let {author: {personal_info}} = blog
-                    return (
-                      <AnimationWraper key={i} transition={{duration: 1, delay: i*0.08}}>
-                        <BlogPostCard content={blog} author={personal_info}/>
-                      </AnimationWraper>
-                    )
-                  })
-                }
-              </>
-              : ""
-            }
 
           </div>
         </AnimationWraper>
 
-      </BlogContext.Provider>
 
     </>
   )

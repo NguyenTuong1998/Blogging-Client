@@ -1,37 +1,51 @@
 import axios from "axios";
 import DetailBlog from "@/app/(blogs)/[id]/_component/DetailBlog";
+import type { Metadata, ResolvingMetadata } from 'next'
+import { getDetailBlog } from "@/apiRequests/blogs";
+import { baseOpenGraph } from "@/app/shared-metadata";
+
 type Props = {
     params: { id: string }
+    searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export let blogStrure = {
-    title: '',
-    des: '',
-    content: [],
-    tags:[],
-    activity: { personal_info: {}},
-    banner: '',
-    publishedAt: ''
-}
+  export async function generateMetadata(
+    { params, searchParams }: Props,
+    parent: ResolvingMetadata
+  ): Promise<Metadata> {
+    const  result  = await getDetailBlog(String(params.id))
+    const product = result.blogStrure
+    return {
+      title: product.title,
+      description: product.des,
+      openGraph: {
+        ...baseOpenGraph,
+        title: product.title,
+        description: product.des,
+        images: [
+          {
+            url: product.banner
+          }
+        ]
+      },
+  
+    }
+  }
 
-let similrBlog: any;
+export default  async function page({ params, searchParams }: Props) {
 
-export default  async function page({ params }: Props) {
+    let blogStrure = null
 
-    await axios.post(process.env.VITE_SERVER_DOMAIN + 'get-blog', { blog_id: params.id })
-    .then(async({data: blog}) => {
-        similrBlog = null
-        await axios.post(process.env.VITE_SERVER_DOMAIN + 'search-blogs', {tag: blog.blog.tags[0], limit: 6, eliminate_blog: params.id})
-        .then(({data}) =>{
-            
-            similrBlog = data.blogs
+    let similrBlog = null
 
-        })
+    try {
+        const result = await getDetailBlog(String(params.id))
+        
+        blogStrure = result.blogStrure
+        
+        similrBlog = result.similrBlog
 
-        blogStrure = Object.assign(blogStrure, blog.blog)
-
-    })
-    .catch(err => console.log(err))
+    } catch (error) {}
 
     return (
         <>

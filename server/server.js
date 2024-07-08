@@ -337,7 +337,6 @@ server.post('/get-blog', (req, res) => {
     .then(blog => {
         User.findOneAndUpdate({"personal_info.username": blog.author.personal_info.username}, {$inc: {"account_info.total_reads": incrementVal}})
         .catch(err => res.status(500).json({ error: err.message}))
-        console.log(JSON.stringify(blog));
         return res.status(200).json({blog})
     } )
     .catch(err => res.status(500).json({error: err.message})) 
