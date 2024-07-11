@@ -56,7 +56,7 @@ export default function NavbarEvent() {
                 <NavigationMenuDemo />
                 <div className='flex gap-3 items-center md:gap-6 ml-auto'>
                     
-                    <Link href='/dashboard/blogs/editor' rel="stylesheet preload prefetch"  className='hidden text-base items-center md:flex gap-2'>
+                    <Link href='/dashboard/editor' rel="stylesheet preload prefetch"  className='hidden text-base items-center md:flex gap-2'>
                         <Button className='text-base' variant="ghost"> <i className='fi fi-rr-file-edit px-1'></i> Write</Button>
                     </Link>
                     <button

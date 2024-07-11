@@ -1,4 +1,4 @@
-import { EditorContext } from "@/app/dashboard/blogs/editor/page"
+import { EditorContext } from "@/app/dashboard/(blogs)/editor/page"
 import { useContext, useState } from "react"
 
 export const Tags = ({ tag, tagIndex }: { tag: any, tagIndex: any }) => {

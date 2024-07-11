@@ -110,6 +110,8 @@ export default function BlogEditor() {
 
         let blogObj = {title, banner, des, content, tags, draft: true}
     
+        if(blog.blog_id) blogObj = Object.assign(blogObj, {id: blog.blog_id})
+        
         axios.post(process.env.VITE_SERVER_DOMAIN + 'create-blog', blogObj, {
           headers:{
             'Authorization': `Bearer ${access_token}`
@@ -146,7 +148,7 @@ export default function BlogEditor() {
         autofocus: true, // Autofocus on the editor when it loads
         tools: Tools, // Add your custom tools here
         placeholder: "📝 Let's write an awesome 💁 ",
-        data: content, // Pass the initial data to the editor
+        data: Array.isArray(content) ? content[0] : content, // Pass the initial data to the editor
       });
       
       editorRef.current = editor

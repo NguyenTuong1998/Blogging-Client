@@ -2,7 +2,7 @@ import { Toaster, toast } from 'react-hot-toast'
 import AnimationWraper from '@/common/AnimationWraper'
 import { Button } from '@/components/ui/button'
 import { useContext, useState } from 'react'
-import { EditorContext } from '@/app/dashboard/blogs/editor/page'
+import { EditorContext } from '@/app/dashboard/(blogs)/editor/page'
 import Image from 'next/image'
 import { Tags } from '@/components/Tags'
 import axios from 'axios'
@@ -69,6 +69,8 @@ export default function PublicForm() {
 
     let blogObj = {title, banner, des, content, tags, draft: false}
 
+    if(blog.blog_id) blogObj = Object.assign(blogObj, {id: blog.blog_id})
+      
     axios.post(process.env.VITE_SERVER_DOMAIN + 'create-blog', blogObj, {
       headers:{
         'Authorization': `Bearer ${access_token}`

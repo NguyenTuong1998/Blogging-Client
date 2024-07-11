@@ -30,7 +30,7 @@ export default function BlogInteracsion({blog}: {blog:any}) {
 
             <div className='flex gap-6 items-center'>
 
-                {userAuth?.username == fullname && <Link href={`/editor/${blog_id}`} className='underline hover:text-purple'>Edit</Link>}
+                {userAuth?.username == fullname && <Link href={`/dashboard/editor/${blog_id}`} className='underline hover:text-purple'>Edit</Link>}
 
                 <Link aria-label='share-blog-to-twitter' href='/'><i className='fi fi-brands-twitter text-xl hover:text-twitter'></i></Link>
 
