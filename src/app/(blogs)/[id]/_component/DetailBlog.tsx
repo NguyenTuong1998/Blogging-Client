@@ -16,6 +16,8 @@ type ContentBlog = {
 export default function DetailBlog({blogStrure, similrBlog}: {blogStrure: any, similrBlog: any}) {
 
    let  blog = blogStrure
+
+   let isLikeByUser = false
   
   let {title,des, content, banner, author: {personal_info: {fullname, username: author_username, profile_img}}, publishedAt} = blog
 
@@ -72,7 +74,7 @@ export default function DetailBlog({blogStrure, similrBlog}: {blogStrure: any, s
             />
 
           
-            <BlogInteracsion blog={blog}/>
+            <BlogInteracsion blog={blog} likeByUser = {isLikeByUser}/>
 
             {/* //content blog detail*/}
 
