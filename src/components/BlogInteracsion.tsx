@@ -9,7 +9,11 @@ import { lookInSession } from '@/common/session'
 export default function BlogInteracsion({blog, likeByUser}: {blog:any, likeByUser: boolean}) {
 
     let userInSeccion = lookInSession('user');
-    let {access_token} = JSON.parse(String(userInSeccion))
+
+    let access_token = null;
+    if(userInSeccion){
+        access_token = JSON.parse(String(userInSeccion)).access_token
+    }
 
     const [isLikeByUser, setLikedByUser] = useState(likeByUser)
 
