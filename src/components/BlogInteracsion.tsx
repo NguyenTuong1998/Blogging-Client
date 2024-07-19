@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { Toaster, toast } from 'react-hot-toast'
 import axios from 'axios'
 import { lookInSession } from '@/common/session'
+import CommentsContainer from '@/components/CommentsContainer'
+import { fetchcomment } from '@/components/CommentsContainer'
 
 export default function BlogInteracsion({blog, likeByUser}: {blog:any, likeByUser: boolean}) {
 
@@ -18,6 +20,10 @@ export default function BlogInteracsion({blog, likeByUser}: {blog:any, likeByUse
     const [isLikeByUser, setLikedByUser] = useState(likeByUser)
 
     const [blogClient, setBlogClient] = useState(blog)
+
+    const [commentsWrapper, setCommentsWrapper] = useState(false)
+
+    const [totalParentCommentsLoaded, setTotalCommentsLoaded] = useState(0)
 
     let { _id, blog_id, activity, activity: {total_likes, total_comments}, 
     author: {personal_info: {username, fullname}} } = blogClient as any
@@ -45,7 +51,9 @@ export default function BlogInteracsion({blog, likeByUser}: {blog:any, likeByUse
         }else toast('Please login to like this blog 😭😭')
     }
 
-    useEffect(() =>{
+    useEffect(() => {
+
+        setCommentsWrapper(false)
 
         if(access_token){
             axios.post(process.env.VITE_SERVER_DOMAIN + 'isLiked-by-user', {_id},{
@@ -56,12 +64,28 @@ export default function BlogInteracsion({blog, likeByUser}: {blog:any, likeByUse
             .then(({data}) => setLikedByUser(Boolean(data.result)))
             .catch(err => console.log(err))
         }
-    })
+
+        if(blogClient){
+            (async() => {
+                
+                blogClient.comments = await fetchcomment({blog_id: blogClient._id, setParentCommentCountFun: setTotalCommentsLoaded})
+
+                setBlogClient({...blogClient})
+            })
+        }
+    },[])
 
     
   return (
     <div>
         <Toaster/>
+        <CommentsContainer blogClient={blogClient} 
+            setBlogClient={setBlogClient} 
+            commentsWrapper={commentsWrapper} 
+            setCommentsWrapper={setCommentsWrapper}
+            totalParentCommentsLoaded={totalParentCommentsLoaded}
+            setTotalCommentsLoaded={setTotalCommentsLoaded}
+        />
         <hr className='border-grey my-2' />
 
         <div className='flex gap-6 justify-between'>
@@ -74,7 +98,7 @@ export default function BlogInteracsion({blog, likeByUser}: {blog:any, likeByUse
                 </button>
                 <p className='text-xl text-dark-grey'>{total_likes}</p>
             
-                <button aria-label='commnet-blog' className='w-10 h-10 rounded-full flex items-center justify-center bg-grey/80'>
+                <button onClick={() => setCommentsWrapper(preval => !preval) } aria-label='commnet-blog' className='w-10 h-10 rounded-full flex items-center justify-center bg-grey/80'>
                     <i className='fi fi-rr-comment-dots'></i>
                 </button>
                 <p className='text-xl text-dark-grey'>{total_comments}</p>
